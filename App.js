@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
     this.state = {};
