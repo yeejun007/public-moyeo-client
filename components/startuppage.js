@@ -8,11 +8,18 @@ import {
   Footer,
   FooterTab,
   Button,
+  Card,
+  CardItem,
   Left,
   Right,
   Body,
   Icon,
-  Text
+  Text,
+  Col,
+  Form,
+  Item,
+  Input,
+  Label
 } from "native-base";
 
 export default class AnatomyExample extends Component {
@@ -25,7 +32,32 @@ export default class AnatomyExample extends Component {
     return (
       <Container>
         <Content style={styles.content}>
-          <Text style={styles.TitleText}> 스타트업 페이지!</Text>
+          <Text style={styles.TitleText}>Moyeo</Text>
+          <Form>
+            <Item inlineLabel>
+              <Label>Username</Label>
+              <Input />
+            </Item>
+            <Item inlineLabel last>
+              <Label>Password</Label>
+              <Input />
+            </Item>
+          </Form>
+          <Button block>
+            <Text> 로그인 </Text>
+          </Button>
+          <Card>
+            <CardItem style={styles.cardItem}>
+              <Icon active name="logo-google" />
+              <Text>Google 로그인</Text>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem style={styles.cardItem}>
+              <Icon active name="logo-github" />
+              <Text>Github 로그인</Text>
+            </CardItem>
+          </Card>
         </Content>
         <Footer>
           <FooterTab>
@@ -41,13 +73,18 @@ export default class AnatomyExample extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    top: 100
+    top: 50
   },
   TitleText: {
-    fontSize: 50
+    left: 120,
+    fontSize: 50,
+    color: "green"
   },
   footerText: {
     fontSize: 15
+  },
+  cardItem: {
+    left: 120
   },
   container: {
     top: 0,
