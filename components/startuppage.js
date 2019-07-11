@@ -1,16 +1,21 @@
 import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Header,
   Title,
+  Content,
+  Footer,
+  FooterTab,
   Button,
   Left,
   Right,
   Body,
-  Icon
+  Icon,
+  Text
 } from "native-base";
 
-export default class HeaderExample extends Component {
+export default class AnatomyExample extends Component {
   constructor() {
     super();
     this.state = {};
@@ -19,18 +24,36 @@ export default class HeaderExample extends Component {
   render() {
     return (
       <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name="menu" />
+        <Content style={styles.content}>
+          <Text style={styles.TitleText}> 스타트업 페이지!</Text>
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button full>
+              <Text style={styles.footerText}>(주)Moyeo</Text>
             </Button>
-          </Left>
-          <Body>
-            <Title>Header</Title>
-          </Body>
-          <Right />
-        </Header>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  content: {
+    top: 100
+  },
+  TitleText: {
+    fontSize: 50
+  },
+  footerText: {
+    fontSize: 15
+  },
+  container: {
+    top: 0,
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
