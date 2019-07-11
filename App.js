@@ -1,28 +1,40 @@
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+import { AppLoading } from "expo";
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import Startuppage from "./components/startuppage";
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { loading: true };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require("./node_modules/native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("./node_modules/native-base/Fonts/Roboto_medium.ttf"),
+      ...Ionicons.font
+    });
+    this.setState({ loading: false });
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+    if (this.state.loading) {
+      return <AppLoading />;
+    }
+    return <Startuppage />;
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center"
+//   }
+// });
 
 export default App;
