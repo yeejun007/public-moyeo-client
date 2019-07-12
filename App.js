@@ -1,9 +1,9 @@
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
-import ProfileSetting from "./components/profilesetting";
+import React, { Component } from "react";
+import { Text, View } from "react-native";
+import Startuppage from "./components/startuppage";
 
 class App extends Component {
   constructor() {
@@ -24,17 +24,8 @@ class App extends Component {
     if (this.state.loading) {
       return <AppLoading />;
     }
-    return <ProfileSetting />;
+    return <Startuppage />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
 
 export default App;
