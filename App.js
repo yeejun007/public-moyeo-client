@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
+import ProfileSetting from "./components/profilesetting";
 
 class App extends Component {
   constructor() {
@@ -23,11 +24,8 @@ class App extends Component {
     if (this.state.loading) {
       return <AppLoading />;
     }
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+    return <ProfileSetting />;
+
   }
 }
 
