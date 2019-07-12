@@ -24,8 +24,8 @@ class App extends Component {
     if (this.state.loading) {
       return <AppLoading />;
     }
-
     return <ProfileSetting />;
+
   }
 }
 
