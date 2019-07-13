@@ -8,6 +8,7 @@ import ProfileSetting from "../components/profilesetting";
 import SelectVote from "../components/select-vote-page";
 import ChatroomSet from "../components/set-chatroom-page";
 
+
 const AppNavigator = createStackNavigator({
   Home: {
     screen: Mainpage
@@ -26,7 +27,8 @@ const AppNavigator = createStackNavigator({
   },
   SelectVote: {
     screen: SelectVote
-  }
+  },
+
 });
 
 export default createAppContainer(AppNavigator);
