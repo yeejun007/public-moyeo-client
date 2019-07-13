@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import SelectVote from "./select-vote-page";
 
 export default class Tabthree extends Component {
   constructor() {
@@ -10,7 +11,7 @@ export default class Tabthree extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>투표확인창</Text>
+        <SelectVote />
       </View>
     );
   }

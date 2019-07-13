@@ -24,6 +24,7 @@ export default class Chattingroom extends Component {
   }
 
   render() {
+    console.log(this.props.navigation);
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>
@@ -36,7 +37,12 @@ export default class Chattingroom extends Component {
             <Title>방 제목</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button
+              onPress={() => {
+                this.props.navigation.navigate("Chattingmenu");
+              }}
+              transparent
+            >
               <Icon name="menu" />
             </Button>
           </Right>
