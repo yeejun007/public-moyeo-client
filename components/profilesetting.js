@@ -68,9 +68,23 @@ export default class ProfileSetting extends Component {
               </Picker>
             </Item>
           </Form>
-          <Button block style={styles.button}>
-            <Text>회원가입</Text>
-          </Button>
+          <Form style={styles.buttonbox}>
+            <Item style={{ top: 5 }}>
+              <Button block style={styles.button}>
+                <Text>확인</Text>
+              </Button>
+            </Item>
+            <Item style={{ top: 10 }}>
+              <Button block style={styles.button}>
+                <Text>로그아웃</Text>
+              </Button>
+            </Item>
+            <Item style={{ top: 15 }}>
+              <Button block style={styles.button}>
+                <Text>회원탈퇴</Text>
+              </Button>
+            </Item>
+          </Form>
         </Content>
         <Footer>
           <FooterTab>
@@ -86,14 +100,21 @@ export default class ProfileSetting extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    top: 100,
-    height: 500
+    top: 50,
+    height: 700
+  },
+  buttonbox: {
+    top: 20,
+    height: 300
+  },
+  buttonset: {
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   ageItem: {
     width: 100
   },
   button: {
-    left: 15,
     width: 380
   },
   pickerItem: {
