@@ -28,7 +28,7 @@ export default class Mychatting extends Component {
       <Container style={styles.container}>
         <Header searchBar rounded style={styles.header}>
           <Item>
-            <Icon name="beer" />
+            <Icon name="contacts" />
             <Input placeholder="Search" />
             <Button style={styles.button} transparent>
               <Icon name="ios-search" />
@@ -49,18 +49,18 @@ export default class Mychatting extends Component {
               <Icon name="home" />
               <Text>메인</Text>
             </Button>
-            <Button
-              onPress={() => this.props.navigation.navigate("Mychatting")}
-              vertical
-              badge
-            >
+            <Button vertical badge>
               <Badge>
                 <Text>7</Text>
               </Badge>
               <Icon name="beer" />
               <Text>내 모임</Text>
             </Button>
-            <Button active vertical>
+            <Button
+              onPress={() => this.props.navigation.navigate("Myschedule")}
+              active
+              vertical
+            >
               <Icon active name="calendar" />
               <Text>내 일정</Text>
             </Button>

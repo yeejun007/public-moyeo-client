@@ -8,6 +8,7 @@ import ProfileSetting from "../components/profilesetting";
 import SelectVote from "../components/select-vote-page";
 import ChatroomSet from "../components/set-chatroom-page";
 import Mychatting from "../components/mychatting";
+import Myschedule from "../components/myschedule";
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -30,6 +31,9 @@ const AppNavigator = createStackNavigator({
   },
   Mychatting: {
     screen: Mychatting
+  },
+  Myschedule: {
+    screen: Myschedule
   }
 });
 
