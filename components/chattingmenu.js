@@ -41,7 +41,7 @@ export default class Chattingmenu extends Component {
           >
             <Tab1 />
           </Tab>
-          <Tab
+          <Tab navi={this.props.navigation}
             heading={
               <TabHeading>
                 <Text>투표생성</Text>
