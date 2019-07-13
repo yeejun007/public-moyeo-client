@@ -17,6 +17,7 @@ import {
   Fab,
   View
 } from "native-base";
+import Searchchatroom from "./searchchatroom";
 
 export default class Mainpage extends Component {
   constructor() {
@@ -87,6 +88,9 @@ export default class Mainpage extends Component {
               <Picker.Item label="코딩" value="key4" />
             </Picker>
           </Form>
+          <View style={styles.middleview}>
+            <Searchchatroom navi={this.props.navigation} />
+          </View>
         </Content>
         <View>
           <Fab
@@ -98,7 +102,10 @@ export default class Mainpage extends Component {
             onPress={() => this.setState({ active: !this.state.active })}
           >
             <Icon name="menu" />
-            <Button style={{ backgroundColor: "#34A34F" }}>
+            <Button
+              onPress={() => this.props.navigation.navigate("ChatroomSet")}
+              style={{ backgroundColor: "#34A34F" }}
+            >
               <Icon name="add" />
             </Button>
             <Button style={{ backgroundColor: "#3B5998" }}>
@@ -126,7 +133,10 @@ export default class Mainpage extends Component {
               <Icon active name="calendar" />
               <Text>내 일정</Text>
             </Button>
-            <Button vertical>
+            <Button
+              onPress={() => this.props.navigation.navigate("ProfileSetting")}
+              vertical
+            >
               <Icon name="person" />
               <Text>내 정보</Text>
             </Button>
@@ -140,6 +150,11 @@ export default class Mainpage extends Component {
 const styles = StyleSheet.create({
   content: {
     marginTop: 50
+  },
+  middleview: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   header: {
     top: 24

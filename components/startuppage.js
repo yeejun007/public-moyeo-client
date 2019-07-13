@@ -22,7 +22,7 @@ import {
   Label
 } from "native-base";
 
-export default class AnatomyExample extends Component {
+export default class Startuppage extends Component {
   constructor() {
     super();
     this.state = {};
