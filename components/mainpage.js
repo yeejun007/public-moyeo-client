@@ -122,14 +122,22 @@ export default class Mainpage extends Component {
               <Icon name="home" />
               <Text>메인</Text>
             </Button>
-            <Button vertical badge>
+            <Button
+              onPress={() => this.props.navigation.navigate("Mychatting")}
+              vertical
+              badge
+            >
               <Badge>
                 <Text>7</Text>
               </Badge>
               <Icon name="beer" />
               <Text>내 모임</Text>
             </Button>
-            <Button active vertical>
+            <Button
+              onPress={() => this.props.navigation.navigate("Myschedule")}
+              active
+              vertical
+            >
               <Icon active name="calendar" />
               <Text>내 일정</Text>
             </Button>
