@@ -122,7 +122,11 @@ export default class Mainpage extends Component {
               <Icon name="home" />
               <Text>메인</Text>
             </Button>
-            <Button vertical badge>
+            <Button
+              onPress={() => this.props.navigation.navigate("Mychatting")}
+              vertical
+              badge
+            >
               <Badge>
                 <Text>7</Text>
               </Badge>

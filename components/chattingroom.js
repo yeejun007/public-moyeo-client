@@ -24,7 +24,6 @@ export default class Chattingroom extends Component {
   }
 
   render() {
-    console.log(this.props.navigation);
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>
