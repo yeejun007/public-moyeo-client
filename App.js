@@ -3,14 +3,17 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
-import ProfileSetting from "./components/profilesetting";
+import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
 
 class App extends Component {
   constructor() {
     super();
-    this.state = { loading: true };
+    this.state = {
+      loading: true,
+      isLogin: false
+    };
   }
 
   async componentDidMount() {
@@ -25,6 +28,9 @@ class App extends Component {
   render() {
     if (this.state.loading) {
       return <AppLoading />;
+    }
+    if (!this.state.isLogin) {
+      return <Startuppage />;
     }
 
     return <AppContainer />;

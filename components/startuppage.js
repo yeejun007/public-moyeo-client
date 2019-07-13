@@ -13,7 +13,8 @@ import {
   Form,
   Item,
   Input,
-  Label
+  Label,
+  View
 } from "native-base";
 
 export default class Startuppage extends Component {
@@ -27,31 +28,37 @@ export default class Startuppage extends Component {
       <Container>
         <Content style={styles.content}>
           <Text style={styles.TitleText}>Moyeo</Text>
-          <Form>
-            <Item inlineLabel>
-              <Label>Username</Label>
-              <Input />
-            </Item>
-            <Item inlineLabel last>
-              <Label>Password</Label>
-              <Input />
-            </Item>
-          </Form>
-          <Button block>
-            <Text> 로그인 </Text>
-          </Button>
-          <Card>
-            <CardItem style={styles.cardItem}>
-              <Icon active name="logo-google" />
-              <Text>Google 로그인</Text>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem style={styles.cardItem}>
-              <Icon active name="logo-github" />
-              <Text>Github 로그인</Text>
-            </CardItem>
-          </Card>
+          <View style={styles.mainview}>
+            <Form>
+              <Item inlineLabel last>
+                <Label>Username</Label>
+                <Input />
+              </Item>
+              <Item inlineLabel last>
+                <Label>Password</Label>
+                <Input />
+              </Item>
+            </Form>
+            <Form style={styles.buttonform}>
+              <View>
+                <Button block style={{ width: 350 }}>
+                  <Text> 로그인 </Text>
+                </Button>
+              </View>
+              <Card style={styles.cardItem}>
+                <CardItem>
+                  <Icon active name="logo-google" />
+                  <Text>Google 로그인</Text>
+                </CardItem>
+              </Card>
+              <Card style={styles.cardItem}>
+                <CardItem>
+                  <Icon active name="logo-github" />
+                  <Text>Github 로그인</Text>
+                </CardItem>
+              </Card>
+            </Form>
+          </View>
         </Content>
         <Footer>
           <FooterTab>
@@ -69,6 +76,11 @@ const styles = StyleSheet.create({
   content: {
     top: 50
   },
+  buttonform: {
+    alignItems: "center",
+    top: 10,
+    height: 500
+  },
   TitleText: {
     left: 120,
     fontSize: 50,
@@ -78,13 +90,10 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   cardItem: {
-    left: 120
-  },
-  container: {
-    top: 0,
-    flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    width: 350
+  },
+  mainview: {
+    top: 100
   }
 });
