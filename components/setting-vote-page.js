@@ -22,7 +22,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    width : 400
   },
   content: {
     height: 300,
@@ -39,17 +40,24 @@ const styles = StyleSheet.create({
     left: 5,
   },
   yes: {
+    left: 40,
+    marginTop : 30,
     width: 150,
     marginRight: 10
   },
   no: {
+    left: 40,
+    marginTop : 30,
     width: 150,
     marginRight: 10
   },
-  contentmap: {
+  mapcontent: {
+    marginTop : 20,
+    height: 300,
     borderRadius: 5,
     borderWidth: 1,
-  }
+    borderColor: "#d6d7da"
+  },
 });
 
 class SettingVote extends Component {
@@ -73,7 +81,7 @@ class SettingVote extends Component {
           </Form>
           <Form>
             <Item floatingLabel>
-              <Label>약속시간(월MM,일DD,시HH,분MM)</Label>
+              <Label>약속시간(년YYYY,월MM,일DD,시HH,분MM)</Label>
               <Input />
             </Item>
           </Form>
@@ -83,7 +91,7 @@ class SettingVote extends Component {
               <Input />
             </Item>
           </Form>
-          <Content style={styles.contentmap}>
+          <Content style={styles.mapcontent}>
             <Text>만날장소 카카오맵</Text>
           </Content>  
           <Form style={styles.yesorno}>
