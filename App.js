@@ -13,10 +13,9 @@ class App extends Component {
     super();
     this.state = {
       token: null,
-      loading: true,
-      isLogin: false
+      isLogin: false,
+      loading: true
     };
-    this.checkUser = this.checkUser.bind(this);
   }
 
   async componentDidMount() {
@@ -29,21 +28,31 @@ class App extends Component {
   }
 
   checkUser() {
-    fetch("http://52.78.213.9:3000/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": this.state.token
-      }
-    }).bind(this);
+    this.setState({ isLogin: true });
+    // fetch("   ", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "x-access-token": this.state.token
+    //   }
+    // })
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(json => {
+    //     this.state.isLogin = json.isLogin;
+    //     this.state.token = json.token;
+    //   });
   }
 
   render() {
+    this.checkUser = this.checkUser.bind(this);
+
     if (this.state.loading) {
       return <AppLoading />;
     }
     if (!this.state.isLogin) {
-      return <Startuppage />;
+      return <Startuppage checkUser={this.checkUser} />;
     }
 
     return <AppContainer />;

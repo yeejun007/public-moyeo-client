@@ -24,6 +24,7 @@ export default class Startuppage extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <Container>
         <Content style={styles.content}>
@@ -41,8 +42,19 @@ export default class Startuppage extends Component {
             </Form>
             <Form style={styles.buttonform}>
               <View>
-                <Button block style={{ width: 350 }}>
+                <Button
+                  onPress={() => {
+                    return this.props.checkUser();
+                  }}
+                  block
+                  style={{ width: 350 }}
+                >
                   <Text> 로그인 </Text>
+                </Button>
+              </View>
+              <View style={{ top: 5 }}>
+                <Button block style={{ width: 350 }}>
+                  <Text> 회원가입 </Text>
                 </Button>
               </View>
               <Card style={styles.cardItem}>
@@ -91,7 +103,8 @@ const styles = StyleSheet.create({
   },
   cardItem: {
     alignItems: "center",
-    width: 350
+    width: 350,
+    top: 10
   },
   mainview: {
     top: 100
