@@ -57,7 +57,7 @@ export default class Chattingmenu extends Component {
               </TabHeading>
             }
           >
-            <Tab3 />
+            <Tab3 navi={this.props.navigation} />
           </Tab>
         </Tabs>
       </Container>
