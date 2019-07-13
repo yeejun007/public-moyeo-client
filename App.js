@@ -6,14 +6,17 @@ import { AppLoading } from "expo";
 import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
+const fetch = require("node-fetch");
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      token: null,
       loading: true,
       isLogin: false
     };
+    this.checkUser = this.checkUser.bind(this);
   }
 
   async componentDidMount() {
@@ -23,6 +26,16 @@ class App extends Component {
       ...Ionicons.font
     });
     this.setState({ loading: false });
+  }
+
+  checkUser() {
+    fetch("http://52.78.213.9:3000/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": this.state.token
+      }
+    }).bind(this);
   }
 
   render() {
