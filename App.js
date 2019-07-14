@@ -73,7 +73,7 @@ class App extends Component {
     if (this.state.clickSignup) {
       return <Signup gobackMain={this.gobackMain} />;
     }
-    return <AppContainer />;
+    return <AppContainer isLogin={this.state.isLogin} />;
   }
 }
 

@@ -44,6 +44,7 @@ export default class Mainpage extends Component {
   render() {
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
+    console.log(this.props.navigation.state);
 
     return (
       <Container style={styles.container}>
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    top: 24
+    top: 25
   },
   button: {
     left: 0,

@@ -28,7 +28,12 @@ export default class Chattingroom extends Component {
       <Container style={styles.container}>
         <Header style={styles.chatheader}>
           <Left>
-            <Button transparent>
+            <Button
+              onPress={() => {
+                return this.props.navigation.goBack();
+              }}
+              transparent
+            >
               <Icon name="arrow-back" />
             </Button>
           </Left>
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   chatheader: {
-    top: 24
+    top: 25
   },
   body: {
     alignItems: "center"

@@ -13,7 +13,8 @@ import {
   Button,
   Text,
   Picker,
-  Icon
+  Icon,
+  Left
 } from "native-base";
 
 export default class ProfileSetting extends Component {
@@ -35,6 +36,19 @@ export default class ProfileSetting extends Component {
 
     return (
       <Container>
+        <Header style={styles.header}>
+          <Left>
+            <Button
+              onPress={() => {
+                return this.props.navigation.goBack();
+              }}
+              transparent
+              style={styles.closebutton}
+            >
+              <Icon name="close" />
+            </Button>
+          </Left>
+        </Header>
         <Content style={styles.content}>
           <Form>
             <Item inlineLabel>
@@ -102,6 +116,13 @@ const styles = StyleSheet.create({
   content: {
     top: 50,
     height: 700
+  },
+  header: {
+    height: 80
+  },
+  closebutton: {
+    top: 10,
+    right: 120
   },
   buttonbox: {
     top: 20,
