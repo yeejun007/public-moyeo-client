@@ -15,7 +15,7 @@ class App extends Component {
     super();
     this.state = {
       token: null,
-      isLogin: false,
+      isLogin: true,
       clickSignup: false,
       loading: true
     };

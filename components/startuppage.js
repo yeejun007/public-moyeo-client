@@ -20,18 +20,14 @@ import {
 export default class Startuppage extends Component {
   constructor() {
     super();
-    this.state = {
-      token: null,
-      isLogin: false,
-      clickSignup: false
-    };
+    this.state = {};
   }
 
   render() {
     return (
       <Container>
         <Content style={styles.content}>
-          <View style={{ left: 120 }}>
+          <View style={{ left: 120, top: 30 }}>
             <Text style={styles.TitleText}>Moyeo</Text>
           </View>
           <View style={styles.mainview}>

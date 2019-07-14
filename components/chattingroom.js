@@ -54,6 +54,7 @@ export default class Chattingroom extends Component {
         <Content></Content>
         <Form regular style={styles.footeritem}>
           <Form>
+            {/* Input 대신 react-native의 TextInput을 사용한다 */}
             <Input style={styles.chatinput} placeholder="내용을 입력하세요" />
           </Form>
           <Button bordered>
