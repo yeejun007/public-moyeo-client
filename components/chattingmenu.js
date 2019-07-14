@@ -22,6 +22,7 @@ export default class Chattingmenu extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <Container>
         <Header style={styles.header}>

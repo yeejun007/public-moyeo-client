@@ -44,7 +44,6 @@ export default class Mainpage extends Component {
   render() {
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
-    console.log(this.props.navigation.state);
 
     return (
       <Container style={styles.container}>

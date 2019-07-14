@@ -3,9 +3,11 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
+import { withNavigation } from "react-navigation";
 import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
+
 const fetch = require("node-fetch");
 
 class App extends Component {
@@ -73,7 +75,7 @@ class App extends Component {
     if (this.state.clickSignup) {
       return <Signup gobackMain={this.gobackMain} />;
     }
-    return <AppContainer isLogin={this.state.isLogin} />;
+    return <AppContainer screenProps={{ rootState: this.state }} />;
   }
 }
 
