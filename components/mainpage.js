@@ -19,14 +19,69 @@ import {
 } from "native-base";
 import Searchchatroom from "./searchchatroom";
 
+
+
+
 export default class Mainpage extends Component {
   constructor() {
     super();
     this.state = {
+      rooms: [
+        {
+          id: 1,
+          roomTitle: '강남구방',
+          roomSize: 10,
+          region: '강남구',
+          category: '운동',
+          poleId: null,
+          permissionId: null
+        },
+        {
+          id: 2,
+          roomTitle: '서초구방',
+          roomSize: '10',
+          region: '서초구',
+          category: '영화관람',
+          poleId: null,
+          permissionId: null
+        },
+        {
+          id: 3,
+          roomTitle: '서초구방',
+          roomSize: '10',
+          region: '서초구',
+          category: '영화관람',
+          poleId: null,
+          permissionId: null
+        },
+        {
+          id: 4,
+          roomTitle: '서초구방',
+          roomSize: '10',
+          region: '서초구',
+          category: '영화관람',
+          poleId: null,
+          permissionId: null
+        },
+        {
+          id: 5,
+          roomTitle: '서초구방',
+          roomSize: '10',
+          region: '서초구',
+          category: '영화관람',
+          poleId: null,
+          permissionId: null
+        }
+        ],
+      serchValue: undefined,
       selected1: undefined,
       selected2: undefined,
-      active: false
+      active: false,
+      clicked: false,
     };
+    this.region = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구','강북구', '도봉구', '노원구', '은평구', '서대문구', 
+  '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
+    this.category = ['맛집탐방', '운동', '공연관람', '영화관람', '스터디모임']
   }
 
   onValueChange1(value) {
@@ -41,17 +96,46 @@ export default class Mainpage extends Component {
     });
   }
 
+//  serverData = (selected1,selected2,serchValue, callback) => {
+//     fetch(`http://localhost:3000/list?region=${selected1}&category=${selected2}&limit=6&serch=${serchValue}`, {
+//       method: 'GET',
+//       headers: {"x-access-token" : token},
+//     }).then(response => {
+//       return response.json()
+//     }).then(json => {
+//       console.log(json)
+//       return callback(json)
+//     }).catch(err => console.log(err))
+//   }; 패치가 안보내짐
+
+serchClicked = (event) => {
+  //console.log('event--->', event)
+  event.preventDefault();
+  //severData(this.state.serchValue, this.state.selected1,this.state.selected2,serchRooms)
+}
+
+// inputserchRoom(data) {
+//   //스크롤 이벤트가 발생하면 다시 패치를 실행해서 더 받아와야함
+//   this.setState({
+//     rooms: data
+//   })
+// }
+
+
   render() {
+    console.log('this.stat-->', this.state)
+    
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
-
+    
+    
     return (
       <Container style={styles.container}>
         <Header searchBar rounded style={styles.header}>
           <Item>
             <Icon name="beer" />
-            <Input placeholder="Search" />
-            <Button style={styles.button} transparent>
+            <Input placeholder="Search" ref={(input)=>{this.textInput = input}}onChangeText={(text)=>this.setState({serchValue:text})}/>
+            <Button style={styles.button} onPress={this.serchClicked}>
               <Icon name="ios-search" />
             </Button>
           </Item>
@@ -66,12 +150,9 @@ export default class Mainpage extends Component {
               selectedValue={this.state.selected1}
               onValueChange={this.onValueChange1.bind(this)}
             >
-              <Picker.Item label="서울" value="key0" />
-              <Picker.Item label="부산" value="key1" />
-              <Picker.Item label="대구" value="key2" />
-              <Picker.Item label="광주" value="key3" />
-              <Picker.Item label="울산" value="key4" />
-              <Picker.Item label="대전" value="key4" />
+              {this.region.map((val) => {
+                return  <Picker.Item label={val} value={val} key={val}/>
+              })}
             </Picker>
             <Picker
               mode="dropdown"
@@ -81,15 +162,13 @@ export default class Mainpage extends Component {
               selectedValue={this.state.selected2}
               onValueChange={this.onValueChange2.bind(this)}
             >
-              <Picker.Item label="맛집탐방" value="key0" />
-              <Picker.Item label="운동" value="key1" />
-              <Picker.Item label="공연관람" value="key2" />
-              <Picker.Item label="영화관람" value="key3" />
-              <Picker.Item label="코딩" value="key4" />
+              {this.category.map((val) => {
+                return  <Picker.Item label={val} value={val} key={val}/>
+              })}
             </Picker>
           </Form>
           <View style={styles.middleview}>
-            <Searchchatroom navi={this.props.navigation} />
+            <Searchchatroom navi={this.props.navigation} serchRoom={this.state.rooms}/>
           </View>
         </Content>
         <View>
@@ -197,3 +276,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
