@@ -17,7 +17,8 @@ class App extends Component {
       token: null,
       isLogin: true,
       clickSignup: false,
-      loading: true
+      loading: true,
+      nickname: "이준킹"
     };
   }
 
