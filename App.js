@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       token: null,
       isLogin: false,
+      clickSignup: false,
       loading: true
     };
   }
@@ -25,6 +26,10 @@ class App extends Component {
       ...Ionicons.font
     });
     this.setState({ loading: false });
+  }
+
+  gobackMain() {
+    this.setState({ clickSignup: false });
   }
 
   checkUser() {
@@ -39,22 +44,35 @@ class App extends Component {
     //   .then(response => {
     //     return response.json();
     //   })
-    //   .then(json => {
-    //     this.state.isLogin = json.isLogin;
-    //     this.state.token = json.token;
+    //   .then(result => {
+    //     this.state.isLogin = result.isLogin;
+    //     this.state.token = result.token;
     //   });
+  }
+
+  clickSignup() {
+    this.setState({ clickSignup: true });
   }
 
   render() {
     this.checkUser = this.checkUser.bind(this);
+    this.clickSignup = this.clickSignup.bind(this);
+    this.gobackMain = this.gobackMain.bind(this);
 
     if (this.state.loading) {
       return <AppLoading />;
     }
-    if (!this.state.isLogin) {
-      return <Startuppage checkUser={this.checkUser} />;
+    if (this.state.isLogin === false && this.state.clickSignup === false) {
+      return (
+        <Startuppage
+          clickSignup={this.clickSignup}
+          checkUser={this.checkUser}
+        />
+      );
     }
-
+    if (this.state.clickSignup) {
+      return <Signup gobackMain={this.gobackMain} />;
+    }
     return <AppContainer />;
   }
 }

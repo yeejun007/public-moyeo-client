@@ -20,15 +20,20 @@ import {
 export default class Startuppage extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      token: null,
+      isLogin: false,
+      clickSignup: false
+    };
   }
 
   render() {
-    console.log(this.props);
     return (
       <Container>
         <Content style={styles.content}>
-          <Text style={styles.TitleText}>Moyeo</Text>
+          <View style={{ left: 120 }}>
+            <Text style={styles.TitleText}>Moyeo</Text>
+          </View>
           <View style={styles.mainview}>
             <Form>
               <Item inlineLabel last>
@@ -53,7 +58,13 @@ export default class Startuppage extends Component {
                 </Button>
               </View>
               <View style={{ top: 5 }}>
-                <Button block style={{ width: 350 }}>
+                <Button
+                  onPress={() => {
+                    return this.props.clickSignup();
+                  }}
+                  block
+                  style={{ width: 350 }}
+                >
                   <Text> 회원가입 </Text>
                 </Button>
               </View>
@@ -85,16 +96,13 @@ export default class Startuppage extends Component {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    top: 50
-  },
+  content: {},
   buttonform: {
     alignItems: "center",
     top: 10,
     height: 500
   },
   TitleText: {
-    left: 120,
     fontSize: 50,
     color: "green"
   },
