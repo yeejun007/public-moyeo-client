@@ -22,6 +22,7 @@ import Searchchatroom from "./searchchatroom";
 
 
 
+
 export default class Mainpage extends Component {
   constructor() {
     super();
@@ -95,6 +96,12 @@ export default class Mainpage extends Component {
     });
   }
 
+  onChangeValue(value) {
+    this.setState({
+      serchValue: value
+    })
+  }
+ 
 //  serverData = (selected1,selected2,serchValue, callback) => {
 //     fetch(`http://localhost:3000/list?region=${selected1}&category=${selected2}&limit=6&serch=${serchValue}`, {
 //       method: 'GET',
@@ -113,10 +120,10 @@ serchClicked = (event) => {
   //severData(this.state.serchValue, this.state.selected1,this.state.selected2,serchRooms)
 }
 
-// inputserchRoom(data) {
+// serchRoom(data) {
 //   //스크롤 이벤트가 발생하면 다시 패치를 실행해서 더 받아와야함
 //   this.setState({
-//     rooms: data
+//     rooms: data //연결되는 객체 형태로 props 바꿔줘야함
 //   })
 // }
 
@@ -126,14 +133,15 @@ serchClicked = (event) => {
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
-    
+    this.onChangeValue =  this.onChangeValue.bind(this);
     
     return (
       <Container style={styles.container}>
         <Header searchBar rounded style={styles.header}>
           <Item>
             <Icon name="beer" />
-            <Input placeholder="Search" ref={(input)=>{this.textInput = input}}onChangeText={(text)=>this.setState({serchValue:text})}/>
+            <Input placeholder="Search" ref={(input)=>{this.textInput = input}} 
+            onChangeText={this.onChangeValue}/>
             <Button style={styles.button} onPress={this.serchClicked}>
               <Icon name="ios-search" />
             </Button>
@@ -147,7 +155,7 @@ serchClicked = (event) => {
               iosIcon={<Icon name="arrow-down" />}
               style={styles.regionpicker}
               selectedValue={this.state.selected1}
-              onValueChange={this.onValueChange1.bind(this)}
+              onValueChange={this.onValueChange1}
             >
               {this.region.map((val) => {
                 return  <Picker.Item label={val} value={val} key={val}/>
@@ -159,7 +167,7 @@ serchClicked = (event) => {
               iosIcon={<Icon name="arrow-down" />}
               style={styles.categorypicker}
               selectedValue={this.state.selected2}
-              onValueChange={this.onValueChange2.bind(this)}
+              onValueChange={this.onValueChange2}
             >
               {this.category.map((val) => {
                 return  <Picker.Item label={val} value={val} key={val}/>
@@ -181,8 +189,10 @@ serchClicked = (event) => {
           >
             <Icon name="menu" />
             <Button
-              onPress={() => this.props.navigation.navigate("ChatroomSet")}
+              onPress={() => this.props.navigation.navigate("ChatroomSet", {})}
               style={{ backgroundColor: "#34A34F" }}
+              screenprops={this.state}
+              category={this.category}
             >
               <Icon name="add" />
             </Button>
