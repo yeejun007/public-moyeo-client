@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import {
   Container,
   Header,
@@ -7,15 +7,20 @@ import {
   Content,
   Button,
   Left,
+  Item,
   Right,
   Body,
   Icon,
   Text,
   View,
-  Input,
-  Form
+  Form,
+  Input
 } from "native-base";
 import Chatcontent from "./chatcontent";
+
+// import SocketIoClient from "socket.io-client";
+// socket.io-client/dist/socket.io.js
+const io = require("socket.io-client");
 
 const fetch = require("node-fetch");
 
@@ -27,7 +32,9 @@ const styles = StyleSheet.create({
     width: 300
   },
   footeritem: {
+    // marginRight: 65,
     flexDirection: "row",
+    // justifyContent: "space-between",
     bottom: 10,
     left: 20
   },
@@ -49,6 +56,13 @@ export default class Chattingroom extends Component {
     super();
     this.state = {
       Date: "2019년 7월 15일",
+      chat: {
+        message: null,
+        userId: null,
+        roomId: null,
+        nickname: null,
+        token: null
+      },
       messages: [
         {
           userId: 1,
@@ -80,9 +94,83 @@ export default class Chattingroom extends Component {
         }
       ]
     };
+
+    // this.socket = SocketIoClient("http://127.0.0.1:3002/", {
+    //   transports: ["websocket"],
+    // forceNew: true,
+    // secure: true,
+    // timeout: 10000,
+    // jsonp: false,
+    //   autoConnect: false,
+    //   agent: "-",
+    //   path: "/", // Whatever your path is
+    //   pfx: "-",
+    //   // key: token, // Using token-based auth.
+    //   // passphrase: cookie, // Using cookie auth.
+    //   cert: "-",
+    //   ca: "-",
+    //   ciphers: "-",
+    //   rejectUnauthorized: "-",
+    //   perMessageDeflate: "-"
+    // });
+    // this.socket.emit("newChatFclient", "안녕 서버야");
+    // this.socket.on("newDataTclient", data => {
+    //   console.log("서버로부터 받은 응답: ", data);
+    // });
+  }
+
+  // componentDidMount() {
+  //   const socket = io("http://127.0.0.1:3000/", {
+  //     transports: ["websocket"],
+  //     forceNew: true,
+  //     secure: true,
+  //     timeout: 10000,
+  //     jsonp: false,
+  //     autoConnect: false,
+  //     agent: "-",
+  //     path: "/", // Whatever your path is
+  //     pfx: "-",
+  //     // // // key: token, // Using token-based auth.
+  //     // // // passphrase: cookie, // Using cookie auth.
+  //     cert: "-",
+  //     ca: "-",
+  //     ciphers: "-",
+  //     rejectUnauthorized: "-",
+  //     perMessageDeflate: "-",
+  //     forceBase64: 1
+  //   });
+
+  //   socket.connect();
+
+  //   socket.on("connect", () => {
+  //     console.log("=============서버와 소켓 연결===============");
+  //   });
+
+  //   socket.emit("messageFclient", data => {
+  //     console.log("서버로 보내는 데이터: ", data);
+  //   });
+  // }
+
+  sendMessage() {
+    fetch("  ", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": this.state.token
+      },
+      body: JSON.stringify({
+        chat: this.state.chat
+      })
+    });
   }
 
   render() {
+    this.state.userId = this.props.screenProps.rootState.userId;
+    this.state.nickname = this.props.screenProps.rootState.nickname;
+    this.state.roomId = null; //메인페이지 스크린으로부터 roomId를 넘겨받아야한다.
+
+    this.sendMessage = this.sendMessage.bind(this);
+
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>
@@ -125,7 +213,7 @@ export default class Chattingroom extends Component {
                   nickname={ms.nickname}
                   message={ms.message}
                   createdAt={ms.createdAt}
-                  key={ms.userid}
+                  key={ms.userId}
                   userIdS={this.props.screenProps.rootState.userId}
                 />
               );
@@ -134,10 +222,24 @@ export default class Chattingroom extends Component {
         </Content>
         <Form regular style={styles.footeritem}>
           <Form>
-            {/* Input 대신 react-native의 TextInput을 사용한다 */}
-            <Input style={styles.chatinput} placeholder="내용을 입력하세요" />
+            <Input
+              onChangeText={text => this.setState({ message: text })}
+              style={styles.chatinput}
+              placeholder="내용을 입력하세요"
+            />
           </Form>
-          <Button bordered>
+          <Button
+            onPress={() => {
+              this.sendMessage()
+                .then(response => {
+                  return response.json();
+                })
+                .then(data => {
+                  this.state.messages.push(data);
+                });
+            }}
+            bordered
+          >
             <Text>send</Text>
           </Button>
         </Form>

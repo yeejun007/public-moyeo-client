@@ -116,7 +116,7 @@ export default class Signup extends Component {
           </Card>
           <Form>
             <Body>
-              <Text style={{ fontSize: 20 }}> 회원 가입 입력 </Text>
+              <Text style={{ fontSize: 20 }}> * 회원 가입 입력 * </Text>
             </Body>
             <Item>
               <Input

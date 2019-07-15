@@ -15,7 +15,7 @@ class App extends Component {
     super();
     this.state = {
       token: null,
-      isLogin: true,
+      isLogin: false,
       clickSignup: false,
       loading: true,
       nickname: "송이준",
@@ -50,7 +50,9 @@ class App extends Component {
     //   })
     //   .then(result => {
     //     this.state.isLogin = result.isLogin;
-    //     this.state.token = result.token;
+    //     if (this.state.token) {
+    //       this.state.token = result.token;
+    //     }
     //   });
   }
 
