@@ -18,7 +18,8 @@ class App extends Component {
       isLogin: true,
       clickSignup: false,
       loading: true,
-      nickname: "이준킹"
+      nickname: "송이준",
+      userId: 1
     };
   }
 

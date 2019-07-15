@@ -51,32 +51,32 @@ export default class Chattingroom extends Component {
       Date: "2019년 7월 15일",
       messages: [
         {
-          userid: 1,
+          userId: 1,
           rommid: 1,
-          message: "으으으으으으으으음",
-          nickname: "이준킹",
-          createdAt: "2019년 7월 15일"
+          message: "으으으으음",
+          nickname: "송이준",
+          createdAt: "23:09"
         },
         {
-          userid: 2,
+          userId: 2,
           rommid: 1,
-          message: "으으으으으으으으음",
-          nickname: "태홍킹",
-          createdAt: "2019년 7월 15일"
+          message: "으으으으음",
+          nickname: "민태홍",
+          createdAt: "23:14"
         },
         {
-          userid: 3,
+          userId: 3,
           rommid: 1,
-          message: "으으으으으으으으음",
-          nickname: "재영킹",
-          createdAt: "2019년 7월 15일"
+          message: "으으으으음",
+          nickname: "송재영",
+          createdAt: "23:15"
         },
         {
-          userid: 4,
+          userId: 4,
           rommid: 1,
-          message: "으으으으으으으으음",
-          nickname: "재익킹",
-          createdAt: "2019년 7월 15일"
+          message: "으으으으음",
+          nickname: "이재익",
+          createdAt: "23:33"
         }
       ]
     };
@@ -116,18 +116,21 @@ export default class Chattingroom extends Component {
               <Text>{this.state.Date}</Text>
             </View>
           </Form>
-          {this.state.messages.map(ms => {
-            return (
-              //유저 자신을 구분하기 위해 처음 로그인 할때 nickname 정보를 서버로부터 받아야함
-              <Chatcontent
-                nickname={ms.nickname}
-                message={ms.message}
-                createdAt={ms.createdAt}
-                key={ms.userid}
-                userNickname={this.props.screenProps.rootState.nickname}
-              />
-            );
-          })}
+          <Form>
+            {this.state.messages.map(ms => {
+              return (
+                //유저 자신을 구분하기 위해 처음 로그인 할때 nickname 정보를 서버로부터 받아야함
+                <Chatcontent
+                  userId={ms.userId}
+                  nickname={ms.nickname}
+                  message={ms.message}
+                  createdAt={ms.createdAt}
+                  key={ms.userid}
+                  userIdS={this.props.screenProps.rootState.userId}
+                />
+              );
+            })}
+          </Form>
         </Content>
         <Form regular style={styles.footeritem}>
           <Form>
