@@ -32,9 +32,11 @@ class ChatroomSet extends Component {
       chatsubject: undefined,
       attendance: undefined,
       selected1: undefined,
-      selected2: undefined
+      selected2: undefined,
+      region: this.props.navigation.state.params.region,
+      category: this.props.navigation.state.params.category
     }
-    //console.log('뭐가올까요-->', this.props)
+    console.log('this.state.region', this.state)
     this.region = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구','강북구', '도봉구', '노원구', '은평구', '서대문구', 
     '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
     this.category = ['맛집탐방', '운동', '공연관람', '영화관람', '스터디모임']
@@ -140,7 +142,7 @@ createClicked = (event) => {
                 selectedValue={this.state.selected1}
                 onValueChange={this.onValueChange1}
               >
-               {this.region.map((val) => {
+               {this.state.region.map((val) => {
                 return  <Picker.Item label={val} value={val} key={val}/>
               })}
               </Picker>
@@ -155,7 +157,7 @@ createClicked = (event) => {
                 selectedValue={this.state.selected2}
                 onValueChange={this.onValueChange2}
               >
-               {this.category.map((val) => {
+               {this.state.category.map((val) => {
                 return  <Picker.Item label={val} value={val} key={val}/>
               })}
               </Picker>

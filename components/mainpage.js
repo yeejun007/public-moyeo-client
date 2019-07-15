@@ -189,7 +189,7 @@ serchClicked = (event) => {
           >
             <Icon name="menu" />
             <Button
-              onPress={() => this.props.navigation.navigate("ChatroomSet", {})}
+              onPress={() => this.props.navigation.navigate("ChatroomSet", {region: this.region, category: this.category})}
               style={{ backgroundColor: "#34A34F" }}
               screenprops={this.state}
               category={this.category}
