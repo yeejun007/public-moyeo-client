@@ -24,8 +24,9 @@ export default class Chattingroom extends Component {
       //roomData: this.props.navigation.state.params.roomData
     };
     console.log('serchRoom--->', this.props.navigation.state.params.roomData)
-    console.log('setChatRoom---->',this.props.navigation.state.params.setRoom)
-    // console.log('this.state--->', this.state.roomData)
+    //console.log('setChatRoom---->',this.props.navigation.state.params.roomData)
+    //console.log('this.state--->', this.state.roomData)
+    //console.log('mychatting---->', this.props.navigation.state.params.roomData)
   }
 
   render() {

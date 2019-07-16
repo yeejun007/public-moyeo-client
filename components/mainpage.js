@@ -20,10 +20,6 @@ import {
 import Searchchatroom from "./searchchatroom";
 
 
-
-
-
-
 export default class Mainpage extends Component {
   constructor() {
     super();
@@ -60,7 +56,7 @@ export default class Mainpage extends Component {
   }
  
   // serverData = (selected1,selected2,serchValue,lastRoomId callback) => {
-  //   fetch(`http://localhost:3000/list?region=${selected1}&category=${selected2}&limit=7&search=${searchValue}&roomId={lastRoomId}`, {
+  //   fetch(`http://localhost:3000/roooms/list?region=${selected1}&category=${selected2}&limit=7&search=${searchValue}&roomId={lastRoomId}`, {
   //     method: 'GET',
   //     headers: {"x-access-token" : token},
   //   }).then(response => {
@@ -115,7 +111,7 @@ plusSerchClick = (event) => {
 
 
   render() {
-    //console.log('this.stat-->', this.state)
+    console.log('this.stat-->', this.state)
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);

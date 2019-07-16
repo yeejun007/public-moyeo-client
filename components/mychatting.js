@@ -16,29 +16,90 @@ import {
   Body,
   View
 } from "native-base";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class Mychatting extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      rooms: [
+
+      ],
+      keyword: '',
+      searchValue: null,
+    };
   }
 
+  // componentDidMount = () => {
+  //   fetch(`http://localhost:3000/users/list?{userId}`, {
+  //     method: 'GET',
+  //     headers: {"x-access-token" : token},
+  //   }).then(response => {
+  //     return response.json()
+  //   }).then(json => {
+  //     //console.log(json)
+  //     this.setState({data})      
+  //   }).catch(err => console.log(err))
+  // }
+  
+  componentDidMount = () => {
+    fetch(`http://koreanjson.com/users`, {
+      method: 'GET',
+    //  headers: {"x-access-token" : token},
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      //console.log(json)
+      this.setState ({
+        rooms: json
+      })      
+    }).catch(err => console.log(err))
+  }
+
+  onChangeValue = (value) => {
+    this.setState({
+      keyword: value
+    })
+  }
+
+  // searchView = (rooms) => {
+  //   let searchArr = rooms.filter((val) => {
+  //       return val.roomTitle.indexOf(this.state.keyword) > -1
+  //     });
+  //     return searchArr.map((data) => {
+  //       return  <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+  //     })
+  //     if(this.state.rooms.length === 0) {
+  //       return <Text>참여 중인 채팅방이 없습니다</Text>
+  //     } else {
+  //     this.state.rooms.map((val) => {
+  //       return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+  //     })
+  //   } 
+  
+  
+  
+
   render() {
+    console.log('this.state----->', this.state)
+
     return (
       <Container style={styles.container}>
         <Header searchBar rounded style={styles.header}>
           <Item>
             <Icon name="contacts" />
-            <Input placeholder="Search" />
-            <Button style={styles.button} transparent>
+            <Input placeholder="Search" ref={(input)=>{this.textInput = input}} onChangeText={this.onChangeValue} />
+            <Button style={styles.button} transparent >
               <Icon name="ios-search" />
             </Button>
           </Item>
         </Header>
         <Content style={styles.content}>
-          <Form>
-            <Text>내가 참가중인 채팅방들이 나열됩니다.</Text>
-          </Form>
+          <ScrollView style={styles.ScrollView}>
+            {this.state.rooms.length === 0 ? <Form></Form> : this.state.rooms.map((val) => {
+              return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+            })}
+          </ScrollView>
         </Content>
         <Footer>
           <FooterTab>
@@ -79,6 +140,17 @@ export default class Mychatting extends Component {
 }
 
 const styles = StyleSheet.create({
+  ScrollView: {
+    width: 400,
+    borderColor: 'black',
+    borderWidth: 1
+  },
+  Text: {
+    fontSize: 30,
+    color: 'blue',
+    borderColor: 'black',
+    borderWidth: 1
+  },
   content: {
     marginTop: 50
   },

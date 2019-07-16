@@ -86,14 +86,14 @@ createClicked = (event) => {
   //console.log('this.roomData--->', this.roomData)
   //event.preventDefault();
   severData(this.roomData, createRoom)
-  //this.props.navigation.navigate("Chattingroom", {setRoom: this.state.setRoom}) 삭제해도됨 시험해보려고 작성
+  //this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom}) 지워도 됨 시험해보려고 작성
 }
 
 createRoom(result) {
   this.setState({
     setRoom: result.data
   })
-  this.props.navigation.navigate("Chattingroom", {setRoom: this.state.setRoom})
+  this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom})
 }
 
 
