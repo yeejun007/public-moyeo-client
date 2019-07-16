@@ -22,7 +22,6 @@ export default class Chattingmenu extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Container>
         <Header style={styles.header}>
@@ -46,17 +45,16 @@ export default class Chattingmenu extends Component {
               </TabHeading>
             }
           >
-            <Tab1 />
+            <Tab1 navi={this.props} />
           </Tab>
           <Tab
-            navi={this.props.navigation}
             heading={
               <TabHeading>
                 <Text>투표생성</Text>
               </TabHeading>
             }
           >
-            <Tab2 />
+            <Tab2 navi={this.props} />
           </Tab>
           <Tab
             heading={
@@ -65,7 +63,7 @@ export default class Chattingmenu extends Component {
               </TabHeading>
             }
           >
-            <Tab3 navi={this.props.navigation} />
+            <Tab3 navi={this.props} />
           </Tab>
         </Tabs>
       </Container>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -7,7 +7,6 @@ import {
   Content,
   Button,
   Left,
-  Item,
   Right,
   Body,
   Icon,
@@ -20,9 +19,7 @@ import Chatcontent from "./chatcontent";
 
 // import SocketIoClient from "socket.io-client";
 // socket.io-client/dist/socket.io.js
-const io = require("socket.io-client");
-
-const fetch = require("node-fetch");
+const SocketIoClient = require("socket.io-client");
 
 const styles = StyleSheet.create({
   chatheader: {
@@ -56,13 +53,11 @@ export default class Chattingroom extends Component {
     super();
     this.state = {
       Date: "2019년 7월 15일",
-      chat: {
-        message: null,
-        userId: null,
-        roomId: null,
-        nickname: null,
-        token: null
-      },
+      message: null,
+      userId: null,
+      roomId: null,
+      nickname: null,
+      token: null,
       messages: [
         {
           userId: 1,
@@ -150,8 +145,22 @@ export default class Chattingroom extends Component {
   //     console.log("서버로 보내는 데이터: ", data);
   //   });
   // }
+  componentDidMount() {
+    this.setState({
+      userId: this.props.screenProps.rootState.userId,
+      nickname: this.props.screenProps.rootState.nickname,
+      roomId: null
+    }); //메인페이지 스크린으로부터 roomId를 넘겨받아야한다.
+  }
 
   sendMessage() {
+    let chat = {
+      message: this.state.message,
+      userId: this.state.userId,
+      roomId: this.state.rommId,
+      nickname: this.state.nickname,
+      token: null
+    };
     fetch("  ", {
       method: "POST",
       headers: {
@@ -159,16 +168,12 @@ export default class Chattingroom extends Component {
         "x-access-token": this.state.token
       },
       body: JSON.stringify({
-        chat: this.state.chat
+        chat: chat
       })
     });
   }
 
   render() {
-    this.state.userId = this.props.screenProps.rootState.userId;
-    this.state.nickname = this.props.screenProps.rootState.nickname;
-    this.state.roomId = null; //메인페이지 스크린으로부터 roomId를 넘겨받아야한다.
-
     this.sendMessage = this.sendMessage.bind(this);
 
     return (
@@ -190,7 +195,11 @@ export default class Chattingroom extends Component {
           <Right>
             <Button
               onPress={() => {
-                this.props.navigation.navigate("Chattingmenu");
+                this.props.navigation.navigate("Chattingmenu", {
+                  roomData: { permissionId: 1 }
+                  // 아래가 실제로 써야할 코드임
+                  // roomData: this.props.navigation.state.params.roomData
+                });
               }}
               transparent
             >

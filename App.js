@@ -8,8 +8,6 @@ import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
 
-const fetch = require("node-fetch");
-
 class App extends Component {
   constructor() {
     super();
