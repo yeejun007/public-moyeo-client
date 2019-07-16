@@ -11,6 +11,7 @@ import Mychatting from "../components/mychatting";
 import Myschedule from "../components/myschedule";
 
 
+
 const AppNavigator = createStackNavigator({
   Home: {
     screen: Mainpage
@@ -35,7 +36,7 @@ const AppNavigator = createStackNavigator({
   },
   Myschedule: {
     screen: Myschedule
-  }
+  },
 });
 
 export default createAppContainer(AppNavigator);

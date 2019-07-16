@@ -23,58 +23,15 @@ import Searchchatroom from "./searchchatroom";
 
 
 
+
 export default class Mainpage extends Component {
   constructor() {
     super();
     this.state = {
       rooms: [
-        {
-          id: 1,
-          roomTitle: '강남구방',
-          roomSize: 10,
-          region: '강남구',
-          category: '운동',
-          poleId: null,
-          permissionId: null
-        },
-        {
-          id: 2,
-          roomTitle: '서초구방',
-          roomSize: '10',
-          region: '서초구',
-          category: '영화관람',
-          poleId: null,
-          permissionId: null
-        },
-        {
-          id: 3,
-          roomTitle: '서초구방',
-          roomSize: '10',
-          region: '서초구',
-          category: '영화관람',
-          poleId: null,
-          permissionId: null
-        },
-        {
-          id: 4,
-          roomTitle: '서초구방',
-          roomSize: '10',
-          region: '서초구',
-          category: '영화관람',
-          poleId: null,
-          permissionId: null
-        },
-        {
-          id: 5,
-          roomTitle: '서초구방',
-          roomSize: '10',
-          region: '서초구',
-          category: '영화관람',
-          poleId: null,
-          permissionId: null
-        }
-        ],
-      serchValue: undefined,
+    
+      ],
+      searchValue: undefined,
       selected1: undefined,
       selected2: undefined,
       active: false,
@@ -98,38 +55,67 @@ export default class Mainpage extends Component {
 
   onChangeValue(value) {
     this.setState({
-      serchValue: value
+      searchValue: value
     })
   }
  
-//  serverData = (selected1,selected2,serchValue, callback) => {
-//     fetch(`http://localhost:3000/list?region=${selected1}&category=${selected2}&limit=6&serch=${serchValue}`, {
-//       method: 'GET',
-//       headers: {"x-access-token" : token},
-//     }).then(response => {
-//       return response.json()
-//     }).then(json => {
-//       console.log(json)
-//       return callback(json)
-//     }).catch(err => console.log(err))
-//   }; 패치가 안보내짐
+  // serverData = (selected1,selected2,serchValue,lastRoomId callback) => {
+  //   fetch(`http://localhost:3000/list?region=${selected1}&category=${selected2}&limit=7&search=${searchValue}&roomId={lastRoomId}`, {
+  //     method: 'GET',
+  //     headers: {"x-access-token" : token},
+  //   }).then(response => {
+  //     return response.json()
+  //   }).then(json => {
+  //     console.log(json)
+  //     return callback(json)
+  //   }).catch(err => console.log(err))
+  // };
+
+serchRoom = (data) => {
+    // const newData = JSON.parse(JSON.stringify(this.state.rooms))
+    // console.log('newData--->', newData)
+    // newData = newData.push(data)
+    this.setState({
+      rooms: data // newData
+    })
+  }
+
+serverData = (callback) => {
+  fetch(`http://koreanjson.com/users`, {
+    method: 'GET',
+    // headers: {"x-access-token" : token},
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      //console.log('json---->', json)
+      callback(json)
+    }).catch(err => console.log(err))
+  };
+
 
 serchClicked = (event) => {
-  //console.log('event--->', event)
+  //console.log('event-->', event)
+  //console.log('lastroomId---->', this.lastRoomId) //마지막 방번호 보내기
   event.preventDefault();
-  //severData(this.state.serchValue, this.state.selected1,this.state.selected2,serchRooms)
+  let lastRoomId = undefined;
+  //this.severData(this.state.serchValue,this.state.selected1,this.state.selected2,this.lastRoomId,this.serchRoom)
+  this.serverData(this.serchRoom)
 }
 
-// serchRoom(data) {
-//   //스크롤 이벤트가 발생하면 다시 패치를 실행해서 더 받아와야함
-//   this.setState({
-//     rooms: data //연결되는 객체 형태로 props 바꿔줘야함
-//   })
-// }
+plusSerchClick = (event) => {
+  event.preventDefault();
+  let lastRoomId = undefined;
+  if(this.state.rooms.length !== 0) {
+    this.lastRoomId = this.state.rooms[this.state.rooms.length-1].id
+  }
+  //this.severData(this.state.serchValue, this.state.selected1,this.state.selected2,this.lastroomId,this.serchRoom)
+}
+
+
 
 
   render() {
-    console.log('this.stat-->', this.state)
+    //console.log('this.stat-->', this.state)
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
@@ -142,12 +128,12 @@ serchClicked = (event) => {
             <Icon name="beer" />
             <Input placeholder="Search" ref={(input)=>{this.textInput = input}} 
             onChangeText={this.onChangeValue}/>
-            <Button style={styles.button} onPress={this.serchClicked}>
+            <Button style={styles.button} onPress={this.serchClicked} >
               <Icon name="ios-search" />
             </Button>
           </Item>
         </Header>
-        <Content style={styles.content}>
+        <View style={styles.content}>
           <Form style={styles.pickerform}>
             <Picker
               mode="dropdown"
@@ -174,10 +160,16 @@ serchClicked = (event) => {
               })}
             </Picker>
           </Form>
-          <View style={styles.middleview}>
-            <Searchchatroom navi={this.props.navigation} serchRoom={this.state.rooms}/>
           </View>
+          <Content>
+        <View style={styles.middleview}>
+            <Searchchatroom navi={this.props.navigation} searchRoom={this.state.rooms} />
+        </View>
         </Content>
+        <Button vertical onPress={this.plusSerchClick}>
+              <Icon name="home" />
+              <Text>더보기</Text>
+        </Button>
         <View>
           <Fab
             active={this.state.active}

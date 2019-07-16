@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text } from "react-native";
-import { Container } from "native-base";
+import { StyleSheet, Text, ScrollView } from "react-native";
+import { Button } from "native-base";
+
+
+
+//import { ScrollView } from "react-native-gesture-handler";
 
 
 const styles = StyleSheet.create({
@@ -20,22 +24,26 @@ export default class Searchchatroom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+    
     }
+
+    this.data = [1,2,3,4]
+    console.log('this1--->', this)
+    
   }
-  
-  render() {
-    console.log(this.props.serchRoom.length)
-    return (
-      <Container style={styles.Container}>
-      {this.props.serchRoom.length === 0 ? <Text style={styles.Text}>검색결과 없음</Text> : this.props.serchRoom.map((val) => {
-        return  <Text style={styles.Text} onPress={() => this.props.navi.navigate("Chattingroom")} key={val.id}>{val.roomTitle}</Text>
+
+render() {
+  console.log('----')
+  return (
+    <ScrollView style={styles.Container}>
+      {this.props.searchRoom.length === 0 ? <Text style={styles.Text}>검색결과 없음</Text> : this.props.searchRoom.map((val) => {
+        //console.log('val--->', val)
+        let roomData = val;
+        //console.log('this.props.navi.navigate--->', this.props.navi)
+        return  <Text style={styles.Text} onPress={() => this.props.navi.navigate("Chattingroom", {roomData: roomData})} key={val.id} rData={val}>{val.city}</Text>
       })}  
-      </Container>
+    </ScrollView>
     );
   }
 }
-
-
-
 
