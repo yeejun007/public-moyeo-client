@@ -155,8 +155,13 @@ export default class Chattingroom extends Component {
   //   });
   // }
 
+  sendMessage(ele) {
+    ClientSocket.emit("messageFclient", { chat: ele });
+  }
+
   render() {
     // this.sendMessage = this.sendMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
 
     const chat = {
       userId: this.state.userId,
@@ -165,8 +170,6 @@ export default class Chattingroom extends Component {
       nickname: this.state.nickname,
       token: this.state.token
     };
-
-    // ClientSocket.emit("messageFclient", { chat: chat });
 
     return (
       <Container style={styles.container}>
@@ -237,6 +240,7 @@ export default class Chattingroom extends Component {
           </Form>
           <Button
             onPress={() => {
+              this.sendMessage(chat);
               // this.sendMessage()
               //   .then(response => {
               //     return response.json();

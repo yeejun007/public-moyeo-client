@@ -69,11 +69,29 @@ class SettingVote extends Component {
     };
   }
 
+  snedCreatedPole(ele) {
+    ClientSocket.emit("createPole", { pole: ele });
+  }
+
   render() {
     // let roomId = this.props.navi.navigation.state.params.roomData.roomId;
     // console.log(this.props.navi.navigation.state.params.roomData);
     // console.log(this.state.roomId);
+
     console.log(this.state);
+    this.snedCreatedPole = this.snedCreatedPole.bind(this);
+
+    const createdPoleData = {
+      poleTitle: this.state.poleTitle,
+      roomId: this.state.roomId,
+      poleContent: this.state.poleContent,
+      expireTime: this.state.expireTime,
+      promiseTime: this.state.promiseTime,
+      locationX: this.state.locationX,
+      locationY: this.state.locationY,
+      token: this.state.token
+    };
+
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>
@@ -117,11 +135,29 @@ class SettingVote extends Component {
             <Text>만날장소 카카오맵</Text>
           </Content>
           <Form style={styles.yesorno}>
-            <Button style={styles.yes}>
+            <Button
+              onPress={() => {
+                this.snedCreatedPole(createdPoleData);
+              }}
+              style={styles.yes}
+            >
               <Icon name="md-thumbs-up" />
               <Text>확인</Text>
             </Button>
-            <Button style={styles.no}>
+            <Button
+              onPress={() => {
+                this.setState({
+                  poleTitle: null,
+                  poleContent: null,
+                  expireTime: null,
+                  promiseTime: null,
+                  locationX: null,
+                  locationY: null
+                });
+                this.props.navi.navigation.goBack();
+              }}
+              style={styles.no}
+            >
               <Icon name="md-thumbs-down" />
               <Text>취소</Text>
             </Button>

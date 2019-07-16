@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import SelectVote from "./select-vote-page";
 
 export default class Tabthree extends Component {
