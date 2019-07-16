@@ -69,7 +69,10 @@ export default class ProfileSetting extends Component {
             </Item>
           </Form>
           <Button block style={styles.button}>
-            <Text>회원가입</Text>
+            <Text>확인</Text>
+          </Button>
+          <Button block style={styles.button} onPress={()=>{this.props.screenProps.LogOut()}}>
+            <Text>로그아웃</Text>
           </Button>
         </Content>
         <Footer>
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
     width: 100
   },
   button: {
+    marginTop: 30,
     left: 15,
     width: 380
   },
