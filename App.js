@@ -34,6 +34,10 @@ class App extends Component {
     this.setState({ clickSignup: false });
   }
 
+  LogOut() {
+    this.setState({ isLogin: false });
+  }
+
   checkUser() {
     this.setState({ isLogin: true });
     // fetch("   ", {
@@ -62,6 +66,7 @@ class App extends Component {
     this.checkUser = this.checkUser.bind(this);
     this.clickSignup = this.clickSignup.bind(this);
     this.gobackMain = this.gobackMain.bind(this);
+    this.LogOut = this.LogOut.bind(this);
 
     if (this.state.loading) {
       return <AppLoading />;
@@ -77,7 +82,11 @@ class App extends Component {
     if (this.state.clickSignup) {
       return <Signup gobackMain={this.gobackMain} />;
     }
-    return <AppContainer screenProps={{ rootState: this.state }} />;
+    return (
+      <AppContainer
+        screenProps={{ rootState: this.state, LogOut: this.LogOut }}
+      />
+    );
   }
 }
 

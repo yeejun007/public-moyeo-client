@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, ListView } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -50,6 +50,7 @@ export default class Chattingroom extends Component {
     super(props);
     this.state = {
       Date: "2019년 7월 15일",
+      newUser: null,
       message: null,
       userId: this.props.screenProps.rootState.userId,
       roomId: 1, //this.props.navigation.state.params.roomData.roomId
@@ -94,6 +95,22 @@ export default class Chattingroom extends Component {
         }
       ]
     };
+
+    this.newUser = this.state.nickname;
+    this.alertMessage = `${this.newUser} 님이 입장하였습니다`;
+    // ClientSocket.emit("ServerEntryRoom", {
+    //   data: {
+    //     roomId: this.state.roomId,
+    //     userId: this.state.userId,
+    //     nickname: this.state.nickname,
+    //     token: this.state.token
+    //   }
+    // });
+
+    // ClientSocket.on("ClientEntryRoom", data => {
+    //   this.state.newUser = data.nickname.nickname;
+    //   this.setState({});
+    // });
 
     // ClientSocket.on("messageTclient", data => {
     //   this.state.messages.push(data);
@@ -157,11 +174,21 @@ export default class Chattingroom extends Component {
 
   sendMessage(ele) {
     ClientSocket.emit("messageFclient", { chat: ele });
+    this.setState({}); // 이거 안쓰면 빨간줄 생겨서 씀
+  }
+
+  alertNewUser() {
+    setTimeout(() => {
+      this.alertMessage = "";
+      this.setState({});
+    }, 3000);
+    return this.alertMessage;
   }
 
   render() {
-    // this.sendMessage = this.sendMessage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.alertNewUser = this.alertNewUser.bind(this);
+    // let alertMessage = `${this.newUser} 님이 입장하였습니다`;
 
     const chat = {
       userId: this.state.userId,
@@ -230,6 +257,15 @@ export default class Chattingroom extends Component {
             })}
           </Form>
         </Content>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginBottom: 20
+          }}
+        >
+          <Text>{this.alertNewUser()}</Text>
+        </View>
         <Form regular style={styles.footeritem}>
           <Form>
             <Input
@@ -241,13 +277,6 @@ export default class Chattingroom extends Component {
           <Button
             onPress={() => {
               this.sendMessage(chat);
-              // this.sendMessage()
-              //   .then(response => {
-              //     return response.json();
-              //   })
-              //   .then(data => {
-              //     this.state.messages.push(data);
-              //   });
             }}
             bordered
           >
