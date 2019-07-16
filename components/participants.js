@@ -1,3 +1,5 @@
+// 채팅방에 참가한 사람들의 목록은 아직 서버데이터 준비중임. ( 보 류 )
+
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import { ListItem, Left, Right, Text, Body, Icon } from "native-base";
