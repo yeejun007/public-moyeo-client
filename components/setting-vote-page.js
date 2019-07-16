@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Button,
@@ -10,7 +11,7 @@ import {
   Label,
   Input
 } from "native-base";
-import { StyleSheet } from "react-native";
+import ClientSocket from "../socket/clientsocket";
 
 const styles = StyleSheet.create({
   container: {
@@ -55,29 +56,61 @@ const styles = StyleSheet.create({
 class SettingVote extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    // console.log(this.props.navi);
+    this.state = {
+      poleTitle: null,
+      roomId: this.props.navi.navigation.state.params.roomData.roomId,
+      poleContent: null,
+      expireTime: null,
+      promiseTime: null,
+      locationX: 1345.132331,
+      locationY: 14551.23111,
+      token: this.props.navi.screenProps.rootState.token
+    };
   }
 
   render() {
+    // let roomId = this.props.navi.navigation.state.params.roomData.roomId;
+    // console.log(this.props.navi.navigation.state.params.roomData);
+    // console.log(this.state.roomId);
+    console.log(this.state);
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>
           <Form>
             <Item floatingLabel>
               <Label>투표제목</Label>
-              <Input />
+              <Input
+                onChangeText={text => {
+                  this.setState({
+                    poleTitle: text
+                  });
+                }}
+              />
             </Item>
           </Form>
           <Form>
             <Item floatingLabel>
               <Label>약속시간(년YYYY,월MM,일DD,시HH,분MM)</Label>
-              <Input />
+              <Input
+                onChangeText={text => {
+                  this.setState({
+                    expireTime: text
+                  });
+                }}
+              />
             </Item>
           </Form>
           <Form>
             <Item floatingLabel>
               <Label>장소, 방장전달사항 입력</Label>
-              <Input />
+              <Input
+                onChangeText={text => {
+                  this.setState({
+                    poleContent: text
+                  });
+                }}
+              />
             </Item>
           </Form>
           <Content style={styles.mapcontent}>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ListView } from "react-native";
 import {
   Container,
   Header,
@@ -16,10 +16,7 @@ import {
   Input
 } from "native-base";
 import Chatcontent from "./chatcontent";
-
-// import SocketIoClient from "socket.io-client";
-// socket.io-client/dist/socket.io.js
-const SocketIoClient = require("socket.io-client");
+import ClientSocket from "../socket/clientsocket";
 
 const styles = StyleSheet.create({
   chatheader: {
@@ -49,40 +46,48 @@ const styles = StyleSheet.create({
 });
 
 export default class Chattingroom extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       Date: "2019년 7월 15일",
       message: null,
-      userId: null,
-      roomId: null,
-      nickname: null,
-      token: null,
+      userId: this.props.screenProps.rootState.userId,
+      roomId: 1, //this.props.navigation.state.params.roomData.roomId
+      nickname: this.props.screenProps.rootState.nickname,
+      permissionId: 1, //this.props.navigation.state.params.roomData.permissionId
+      poleId: null,
+      poleTitle: null,
+      poleContent: null,
+      expireTime: null,
+      promiseTime: null,
+      locationX: null,
+      locationY: null,
+      token: this.props.screenProps.rootState.token,
       messages: [
         {
           userId: 1,
-          rommid: 1,
+          rommId: 1,
           message: "으으으으음",
           nickname: "송이준",
           createdAt: "23:09"
         },
         {
           userId: 2,
-          rommid: 1,
+          rommId: 1,
           message: "으으으으음",
           nickname: "민태홍",
           createdAt: "23:14"
         },
         {
           userId: 3,
-          rommid: 1,
+          rommId: 1,
           message: "으으으으음",
           nickname: "송재영",
           createdAt: "23:15"
         },
         {
           userId: 4,
-          rommid: 1,
+          rommId: 1,
           message: "으으으으음",
           nickname: "이재익",
           createdAt: "23:33"
@@ -90,27 +95,21 @@ export default class Chattingroom extends Component {
       ]
     };
 
-    // this.socket = SocketIoClient("http://127.0.0.1:3002/", {
-    //   transports: ["websocket"],
-    // forceNew: true,
-    // secure: true,
-    // timeout: 10000,
-    // jsonp: false,
-    //   autoConnect: false,
-    //   agent: "-",
-    //   path: "/", // Whatever your path is
-    //   pfx: "-",
-    //   // key: token, // Using token-based auth.
-    //   // passphrase: cookie, // Using cookie auth.
-    //   cert: "-",
-    //   ca: "-",
-    //   ciphers: "-",
-    //   rejectUnauthorized: "-",
-    //   perMessageDeflate: "-"
+    // ClientSocket.on("messageTclient", data => {
+    //   this.state.messages.push(data);
+    //   this.setState({});
     // });
-    // this.socket.emit("newChatFclient", "안녕 서버야");
-    // this.socket.on("newDataTclient", data => {
-    //   console.log("서버로부터 받은 응답: ", data);
+
+    // ClientSocket.on("successPole", data => {
+    //   this.setState({
+    //     poleId: data.sendPole.id,
+    //     poleTitle: data.sendPole.poleTitle,
+    //     poleContent: data.sendPole.poleContent,
+    //     expireTime: data.sendPole.poleContent,
+    //     promiseTime: data.sendPole.promiseTime,
+    //     locationX: data.sendPole.locationX,
+    //     locationY: data.sendPole.locationY
+    //   });
     // });
   }
 
@@ -134,47 +133,40 @@ export default class Chattingroom extends Component {
   //     perMessageDeflate: "-",
   //     forceBase64: 1
   //   });
+  // }
 
-  //   socket.connect();
-
-  //   socket.on("connect", () => {
-  //     console.log("=============서버와 소켓 연결===============");
-  //   });
-
-  //   socket.emit("messageFclient", data => {
-  //     console.log("서버로 보내는 데이터: ", data);
+  // sendMessage() {
+  // let chat = {
+  //   message: this.state.message,
+  //   userId: this.state.userId,
+  //   roomId: this.state.rommId,
+  //   nickname: this.state.nickname,
+  //   token: null
+  // };
+  //   fetch("  ", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-access-token": this.state.token
+  //     },
+  //     body: JSON.stringify({
+  //       chat: chat
+  //     })
   //   });
   // }
-  componentDidMount() {
-    this.setState({
-      userId: this.props.screenProps.rootState.userId,
-      nickname: this.props.screenProps.rootState.nickname,
-      roomId: null
-    }); //메인페이지 스크린으로부터 roomId를 넘겨받아야한다.
-  }
-
-  sendMessage() {
-    let chat = {
-      message: this.state.message,
-      userId: this.state.userId,
-      roomId: this.state.rommId,
-      nickname: this.state.nickname,
-      token: null
-    };
-    fetch("  ", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": this.state.token
-      },
-      body: JSON.stringify({
-        chat: chat
-      })
-    });
-  }
 
   render() {
-    this.sendMessage = this.sendMessage.bind(this);
+    // this.sendMessage = this.sendMessage.bind(this);
+
+    const chat = {
+      userId: this.state.userId,
+      roomId: this.state.rommId,
+      message: this.state.message,
+      nickname: this.state.nickname,
+      token: this.state.token
+    };
+
+    // ClientSocket.emit("messageFclient", { chat: chat });
 
     return (
       <Container style={styles.container}>
@@ -196,9 +188,16 @@ export default class Chattingroom extends Component {
             <Button
               onPress={() => {
                 this.props.navigation.navigate("Chattingmenu", {
-                  roomData: { permissionId: 1 }
-                  // 아래가 실제로 써야할 코드임
-                  // roomData: this.props.navigation.state.params.roomData
+                  roomData: {
+                    permissionId: this.state.permissionId,
+                    roomId: this.state.roomId,
+                    poleTitle: this.state.poleTitle,
+                    poleContent: this.state.poleContent,
+                    expireTime: this.state.expireTime,
+                    promiseTime: this.state.promiseTime,
+                    locationX: this.state.locationX,
+                    locationY: this.state.locationY
+                  }
                 });
               }}
               transparent
@@ -216,7 +215,6 @@ export default class Chattingroom extends Component {
           <Form>
             {this.state.messages.map(ms => {
               return (
-                //유저 자신을 구분하기 위해 처음 로그인 할때 nickname 정보를 서버로부터 받아야함
                 <Chatcontent
                   userId={ms.userId}
                   nickname={ms.nickname}
@@ -239,13 +237,13 @@ export default class Chattingroom extends Component {
           </Form>
           <Button
             onPress={() => {
-              this.sendMessage()
-                .then(response => {
-                  return response.json();
-                })
-                .then(data => {
-                  this.state.messages.push(data);
-                });
+              // this.sendMessage()
+              //   .then(response => {
+              //     return response.json();
+              //   })
+              //   .then(data => {
+              //     this.state.messages.push(data);
+              //   });
             }}
             bordered
           >

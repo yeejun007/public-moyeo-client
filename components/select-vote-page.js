@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Button,
@@ -9,9 +10,7 @@ import {
   Form,
   Root
 } from "native-base";
-import { StyleSheet } from "react-native";
-
-const SocketIoClient = require("socket.io-client");
+import ClientSocket from "../socket/clientsocket";
 
 const styles = StyleSheet.create({
   container: {
@@ -45,63 +44,42 @@ const styles = StyleSheet.create({
 });
 
 class SelectVote extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      token: null,
-      userId: 1,
+      token: this.props.navi.screenProps.rootState.token,
+      userId: this.props.navi.screenProps.rootState.userId,
+      roomId: this.props.navi.navigation.state.params.roomData.roomId,
+      host: this.props.navi.navigation.state.params.roomData.permissionId,
       clicked: "",
       yes: 0,
       no: 0,
       yesOrno: null
     };
 
-    this.socket = SocketIoClient("http://127.0.0.1:3002/", {
-      transports: ["websocket"],
-      forceNew: true,
-      secure: true,
-      timeout: 10000,
-      jsonp: false,
-      autoConnect: false,
-      agent: "-",
-      path: "/", // Whatever your path is
-      pfx: "-",
-      // key: token, // Using token-based auth.
-      // passphrase: cookie, // Using cookie auth.
-      cert: "-",
-      ca: "-",
-      ciphers: "-",
-      rejectUnauthorized: "-",
-      perMessageDeflate: "-"
-    });
-  }
-
-  componentDidMount() {
-    // this.setState({
-    //   token: this.props.navi.screenProps.rootState.token
+    // ClientSocket.on("returnAttendence", data => {
+    //   this.setState({
+    //     yes: data.result.agree.count,
+    //     no: data.result.disagree.count
+    //   });
     // });
-    this.setState({
-      userId: this.props.navi.screenProps.rootState.userId
-    });
   }
 
   render() {
-    // console.log("============", this.props.navi);
-    //this.props.navi.navigation.state.params.roomData.permissionId <--방장의 userId
-    const host = this.props.navi.navigation.state.params.roomData.permissionId;
     const BUTTONS = ["투표종료", "취소"];
     const CANCEL_INDEX = BUTTONS.length - 1;
 
     const attendence = {
-      att: this.state.yesOrno
+      att: this.state.yesOrno,
+      roomId: this.state.roomId,
+      userId: this.state.userId,
+      poleId: null,
+      token: this.state.token
     };
-    this.socket.emit("attendencePole", { attendence });
-    this.socket.on("returnAttendence", data => {
-      this.setState({
-        yes: data.result.agree.count,
-        no: data.result.disagree.count
-      });
-    });
+
+    // ClientSocket.emit("attendencePole", {
+    //   attendence: attendence
+    // });
 
     if (this.state.clicked === "투표종료") {
       this.props.navi.navigation.goBack();
@@ -123,7 +101,9 @@ class SelectVote extends Component {
             <Button
               block
               style={
-                this.state.userId === host ? styles.button : styles.buttonHide
+                this.state.userId === this.state.host
+                  ? styles.button
+                  : styles.buttonHide
               }
               onPress={() =>
                 ActionSheet.show(
