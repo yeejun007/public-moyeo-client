@@ -26,13 +26,20 @@ class ChatroomSet extends Component {
   constructor(props){
     super(props)
     this.state = {
+      setRoom: {
+        id: Number,
+        roomTitle: String,
+        region: String,
+        category: String,
+        poleId: Number,
+        permissionId: Number
+      },
       roomSubject: undefined,
       attendance: undefined,
       selected1: undefined,
       selected2: undefined,
       region: this.props.navigation.state.params.region,
       category: this.props.navigation.state.params.category,
-      ex: this.props.navigation.state.params.ex
       //userId: this.props.screenprops.rootstate.userId 확인필요
     }
     //console.log(this.props.navigation.state)
@@ -62,17 +69,11 @@ class ChatroomSet extends Component {
       attendance: value
     });
   }
-  
-  // 빈칸 만드는 거 아직 못함
-  //roomTitle=${roomSubject}&roomSize=${attendance}&lregion={selected1}&category=${selected2}&userId={userId}
-  
-
-
-//   serverData = (callback) => {
-//     fetch(`http://localhost:3000/rooms/crete`, {
+//   serverData = (roomData,callback) => {
+//     fetch(`http://localhost:3000/rooms/create`, {
 //       method: 'POST',
 //       headers: {"x-access-token" : token},
-//       body: JSON.stringify()
+//       body: JSON.stringify(roomData)
 //     }).then(response => {
 //       return response.json()
 //     }).then(json => {
@@ -80,19 +81,20 @@ class ChatroomSet extends Component {
 //       return callback(json)
 //     }).catch(err => console.log(err))
 //   };
+  
+createClicked = (event) => {
+  //console.log('this.roomData--->', this.roomData)
+  //event.preventDefault();
+  severData(this.roomData, createRoom)
+  //this.props.navigation.navigate("Chattingroom", {setRoom: this.state.setRoom}) 삭제해도됨 시험해보려고 작성
+}
 
-// createClicked = (event) => {
-//   console.log('event--->', this.roomData)
-//   event.preventDefault();
-//   //severData(보내는정보, createRoom)
-// }
-
-// createRoom(data) {
-//   //스크롤 이벤트가 발생하면 다시 패치를 실행해서 더 받아와야함
-//   this.setState({
-//     setroom: data
-//   })
-// }
+createRoom(result) {
+  this.setState({
+    setRoom: result.data
+  })
+  this.props.navigation.navigate("Chattingroom", {setRoom: this.state.setRoom})
+}
 
 
   render() {
@@ -109,8 +111,9 @@ class ChatroomSet extends Component {
     this.onChangeText2 = this.onChangeText2.bind(this);
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this)
-
+    console.log(this.state)
     return (
+      
       <Container>
         <Header style={styles.header}>
           <Left>
@@ -174,7 +177,7 @@ class ChatroomSet extends Component {
             </Item>
           </Form>
           <Button primary style={styles.completechatroom}
-            onPress={() => this.props.navigation.navigate("Chattingroom", {})}
+            onPress ={this.createClicked}
           >
             <Text>채팅방 설정 완료</Text>
           </Button>

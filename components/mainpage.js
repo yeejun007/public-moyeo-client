@@ -71,12 +71,12 @@ export default class Mainpage extends Component {
   //   }).catch(err => console.log(err))
   // };
 
-serchRoom = (data) => {
+serchRoom = (result) => {
     // const newData = JSON.parse(JSON.stringify(this.state.rooms))
     // console.log('newData--->', newData)
     // newData = newData.push(data)
     this.setState({
-      rooms: data // newData
+      rooms: result.data // newData
     })
   }
 

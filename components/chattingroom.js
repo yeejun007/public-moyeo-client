@@ -21,10 +21,11 @@ export default class Chattingroom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomData: this.props.navigation
+      //roomData: this.props.navigation.state.params.roomData
     };
-    console.log('this2--->', this.props.navigation.state.params.roomData)
-    console.log('this.state--->', this.state.roomData)
+    console.log('serchRoom--->', this.props.navigation.state.params.roomData)
+    console.log('setChatRoom---->',this.props.navigation.state.params.setRoom)
+    // console.log('this.state--->', this.state.roomData)
   }
 
   render() {

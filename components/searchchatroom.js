@@ -26,10 +26,7 @@ export default class Searchchatroom extends Component {
     this.state = {
     
     }
-
-    this.data = [1,2,3,4]
-    console.log('this1--->', this)
-    
+     console.log('this1--->', this)
   }
 
 render() {
