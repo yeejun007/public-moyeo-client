@@ -57,10 +57,13 @@ class SelectVote extends Component {
       yesOrno: null
     };
 
+    // console.log(this.props);
     // ClientSocket.on("returnAttendence", data => {
     //   this.setState({
     //     yes: data.result.agree.count,
-    //     no: data.result.disagree.count
+    //     no: data.result.disagree.count,
+    //     agreePeople: data.result.agree.rows,
+    //     disagreePeople: data.result.disagree.rows
     //   });
     // });
   }

@@ -9,6 +9,7 @@ import SelectVote from "../components/select-vote-page";
 import ChatroomSet from "../components/set-chatroom-page";
 import Mychatting from "../components/mychatting";
 import Myschedule from "../components/myschedule";
+import Participants from "../components/participants";
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -55,6 +56,12 @@ const AppNavigator = createStackNavigator({
   },
   Myschedule: {
     screen: Myschedule,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+  Participants: {
+    screen: Participants,
     navigationOptions: () => ({
       header: null
     })
