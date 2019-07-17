@@ -70,7 +70,6 @@ class SelectVote extends Component {
       clicked: "",
       yes: 0,
       no: 0,
-      yesOrno: null,
       poleResult: this.props.navi.navigation.state.params.poleData.poleResult
     };
 
@@ -87,7 +86,7 @@ class SelectVote extends Component {
     const CANCEL_INDEX = BUTTONS.length - 1;
 
     let attendence = {
-      att: this.state.yesOrno,
+      att: true,
       roomId: this.state.roomId,
       userId: this.state.userId,
       poleId: this.state.poleId,
@@ -104,7 +103,6 @@ class SelectVote extends Component {
       ClientSocket.emit("expirePole", { expire: expire });
       this.props.navi.navigation.goBack();
     }
-
     return (
       <Root>
         <Container style={styles.container}>
@@ -118,6 +116,10 @@ class SelectVote extends Component {
           <Content style={styles.content}>
             <Text>투표 종료시간</Text>
             <Text>{this.state.expireTime}</Text>
+          </Content>
+          <Content style={styles.content}>
+            <Text>전달내용</Text>
+            <Text>{this.state.poleContent}</Text>
           </Content>
           <Content padder>
             <Button
@@ -146,9 +148,7 @@ class SelectVote extends Component {
               <Form style={styles.yesorno}>
                 <Button
                   onPress={() => {
-                    this.setState({
-                      yesOrno: true
-                    });
+                    attendence.att = true;
                     ClientSocket.emit("attendencePole", {
                       attendence: attendence
                     });
@@ -160,9 +160,7 @@ class SelectVote extends Component {
                 </Button>
                 <Button
                   onPress={() => {
-                    this.setState({
-                      yesOrno: false
-                    });
+                    attendence.att = false;
                     ClientSocket.emit("attendencePole", {
                       attendence: attendence
                     });

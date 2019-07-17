@@ -51,9 +51,9 @@ export default class Chattingroom extends Component {
       newUser: this.props.screenProps.rootState.nickname,
       message: null,
       userId: this.props.screenProps.rootState.userId,
-      roomId: this.props.navigation.state.params.roomData.roomId, // 태홍님한테 받는거
+      roomId: 1, // 태홍님한테 받는거 this.props.navigation.state.params.roomData.roomId
       nickname: this.props.screenProps.rootState.nickname,
-      permissionId: this.props.navigation.state.params.roomData.permissionId, // 태홍님한테 받는거
+      permissionId: 1, // 태홍님한테 받는거 this.props.navigation.state.params.roomData.permissionId
       poleId: null,
       poleTitle: null,
       poleContent: null,
@@ -61,7 +61,7 @@ export default class Chattingroom extends Component {
       promiseTime: null,
       locationX: null,
       locationY: null,
-      poleResult: false,
+      poleResult: null,
       token: this.props.screenProps.rootState.token,
       messages: [
         {
@@ -104,12 +104,14 @@ export default class Chattingroom extends Component {
         poleId: data.sendPole.id,
         poleTitle: data.sendPole.poleTitle,
         poleContent: data.sendPole.poleContent,
-        expireTime: data.sendPole.poleContent,
+        expireTime: data.sendPole.expireTime,
         promiseTime: data.sendPole.promiseTime,
         locationX: data.sendPole.locationX,
         locationY: data.sendPole.locationY
       });
     });
+
+    this.alertPole = "";
   }
 
   sendMessage(ele) {
@@ -125,9 +127,18 @@ export default class Chattingroom extends Component {
     return this.alertMessage;
   }
 
+  removeAlertPole() {
+    setTimeout(() => {
+      this.alertPole = "";
+      this.state.poleResult = null;
+      this.setState({});
+    }, 3000);
+  }
+
   render() {
     this.sendMessage = this.sendMessage.bind(this);
     this.alertNewUser = this.alertNewUser.bind(this);
+    this.removeAlertPole = this.removeAlertPole.bind(this);
 
     let chat = {
       userId: this.state.userId,
@@ -136,6 +147,14 @@ export default class Chattingroom extends Component {
       nickname: this.state.nickname,
       token: this.state.token
     };
+
+    if (this.state.poleResult === true) {
+      this.alertPole = "과반수 이상 찬성으로 스케쥴이 등록되었습니다!";
+      this.removeAlertPole();
+    } else if (this.state.poleResult === false) {
+      this.alertPole = "투표가 파토났습니다";
+      this.removeAlertPole();
+    }
 
     return (
       <Container style={styles.container}>
@@ -181,6 +200,9 @@ export default class Chattingroom extends Component {
           <Form style={styles.chatDate}>
             <View>
               <Text>{this.state.Date}</Text>
+            </View>
+            <View>
+              <Text>{this.alertPole}</Text>
             </View>
           </Form>
           <Form>
