@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import {
   Container,
   Button,
-  Icon,
+  View,
   Content,
   Text,
   Form,
@@ -62,6 +62,7 @@ class SettingVote extends Component {
     super(props);
     // console.log(this.props.navi);
     this.state = {
+      onVote: this.props.navi.screenProps.rootState.onVote,
       poleTitle: null,
       roomId: this.props.navi.navigation.state.params.roomData.roomId,
       poleContent: null,
@@ -133,32 +134,36 @@ class SettingVote extends Component {
           <Content style={styles.mapcontent}>
             <Text>만날장소 카카오맵</Text>
           </Content>
-          <Form style={styles.yesorno}>
-            <Button
-              onPress={() => {
-                this.snedCreatedPole(createdPoleData);
-              }}
-              style={styles.yes}
-            >
-              <Text>확인</Text>
-            </Button>
-            <Button
-              onPress={() => {
-                this.setState({
-                  poleTitle: null,
-                  poleContent: null,
-                  expireTime: null,
-                  promiseTime: null,
-                  locationX: null,
-                  locationY: null
-                });
-                this.props.navi.navigation.goBack();
-              }}
-              style={styles.no}
-            >
-              <Text>취소</Text>
-            </Button>
-          </Form>
+          {this.state.onVote === true ? (
+            <View />
+          ) : (
+            <Form style={styles.yesorno}>
+              <Button
+                onPress={() => {
+                  this.snedCreatedPole(createdPoleData);
+                }}
+                style={styles.yes}
+              >
+                <Text>확인</Text>
+              </Button>
+              <Button
+                onPress={() => {
+                  this.setState({
+                    poleTitle: null,
+                    poleContent: null,
+                    expireTime: null,
+                    promiseTime: null,
+                    locationX: null,
+                    locationY: null
+                  });
+                  this.props.navi.navigation.goBack();
+                }}
+                style={styles.no}
+              >
+                <Text>취소</Text>
+              </Button>
+            </Form>
+          )}
         </Content>
       </Container>
     );
