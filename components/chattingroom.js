@@ -50,7 +50,7 @@ export default class Chattingroom extends Component {
     super(props);
     this.state = {
       Date: "2019년 7월 15일",
-      newUser: null,
+      newUser: "송이준",
       message: null,
       userId: this.props.screenProps.rootState.userId,
       roomId: 1, //this.props.navigation.state.params.roomData.roomId
@@ -96,8 +96,7 @@ export default class Chattingroom extends Component {
       ]
     };
 
-    this.newUser = this.state.nickname;
-    this.alertMessage = `${this.newUser} 님이 입장하였습니다`;
+    this.alertMessage = `${this.state.newUser} 님이 입장하였습니다`;
     // ClientSocket.emit("ServerEntryRoom", {
     //   data: {
     //     roomId: this.state.roomId,
@@ -181,14 +180,13 @@ export default class Chattingroom extends Component {
     setTimeout(() => {
       this.alertMessage = "";
       this.setState({});
-    }, 3000);
+    }, 2000);
     return this.alertMessage;
   }
 
   render() {
     this.sendMessage = this.sendMessage.bind(this);
     this.alertNewUser = this.alertNewUser.bind(this);
-    // let alertMessage = `${this.newUser} 님이 입장하였습니다`;
 
     const chat = {
       userId: this.state.userId,
@@ -264,7 +262,11 @@ export default class Chattingroom extends Component {
             marginBottom: 20
           }}
         >
-          <Text>{this.alertNewUser()}</Text>
+          <Text>
+            {this.state.nickname === this.state.newUser
+              ? ""
+              : this.alertNewUser()}
+          </Text>
         </View>
         <Form regular style={styles.footeritem}>
           <Form>

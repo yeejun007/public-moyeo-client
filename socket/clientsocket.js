@@ -20,11 +20,14 @@
 //   rejectUnauthorized: "-",
 //   perMessageDeflate: "-"
 // });
-// // this.socket.emit("newChatFclient", "안녕 서버야");
-// // this.socket.on("newDataTclient", data => {
-// //   console.log("서버로부터 받은 응답: ", data);
-// // });
+
+// this.socket.emit("newChatFclient", "안녕 서버야");
+// this.socket.on("newDataTclient", data => {
+//   console.log("서버로부터 받은 응답: ", data);
+// });
 
 // socket.connect();
 
 // export default socket;
+
+// 다른 페이지에서 여기서 export한 socket을 import해서 사용할때 다시 이 페이지를 읽는가 하는것
