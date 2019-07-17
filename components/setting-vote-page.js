@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 class SettingVote extends Component {
   constructor(props) {
     super(props);
-    // console.log(this.props.navi);
+
     this.state = {
       onVote: this.props.navi.screenProps.rootState.onVote,
       poleTitle: null,
@@ -72,6 +72,8 @@ class SettingVote extends Component {
       locationY: 14551.23111,
       token: this.props.navi.screenProps.rootState.token
     };
+
+    this.timer;
   }
 
   snedCreatedPole(ele) {
@@ -80,8 +82,17 @@ class SettingVote extends Component {
     // this.props.navi.screenProps.changeVoteState();
   }
 
+  typing(ele, title) {
+    clearTimeout(this.timer);
+    this.state[title] = ele;
+    this.timer = setTimeout(() => {
+      this.setState({});
+    }, 2000);
+  }
+
   render() {
     this.snedCreatedPole = this.snedCreatedPole.bind(this);
+    this.typing = this.typing.bind(this);
 
     let createdPoleData = {
       poleTitle: this.state.poleTitle,
@@ -102,9 +113,7 @@ class SettingVote extends Component {
               <Label>투표제목</Label>
               <Input
                 onChangeText={text => {
-                  this.setState({
-                    poleTitle: text
-                  });
+                  this.typing(text, "poleTitle");
                 }}
               />
             </Item>
@@ -114,9 +123,7 @@ class SettingVote extends Component {
               <Label>약속시간(년YYYY,월MM,일DD,시HH,분MM)</Label>
               <Input
                 onChangeText={text => {
-                  this.setState({
-                    expireTime: text
-                  });
+                  this.typing(text, "promiseTime");
                 }}
               />
             </Item>
@@ -126,9 +133,7 @@ class SettingVote extends Component {
               <Label>장소, 방장전달사항 입력</Label>
               <Input
                 onChangeText={text => {
-                  this.setState({
-                    poleContent: text
-                  });
+                  this.typing(text, "poleContent");
                 }}
               />
             </Item>
