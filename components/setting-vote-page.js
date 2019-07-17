@@ -33,12 +33,16 @@ const styles = StyleSheet.create({
     left: 5
   },
   yes: {
+    flexDirection: "row",
+    justifyContent: "center",
     left: 40,
     marginTop: 30,
     width: 150,
     marginRight: 10
   },
   no: {
+    flexDirection: "row",
+    justifyContent: "center",
     left: 40,
     marginTop: 30,
     width: 150,
@@ -74,14 +78,9 @@ class SettingVote extends Component {
   }
 
   render() {
-    // let roomId = this.props.navi.navigation.state.params.roomData.roomId;
-    // console.log(this.props.navi.navigation.state.params.roomData);
-    // console.log(this.state.roomId);
-
-    console.log(this.state);
     this.snedCreatedPole = this.snedCreatedPole.bind(this);
 
-    const createdPoleData = {
+    let createdPoleData = {
       poleTitle: this.state.poleTitle,
       roomId: this.state.roomId,
       poleContent: this.state.poleContent,
@@ -141,7 +140,6 @@ class SettingVote extends Component {
               }}
               style={styles.yes}
             >
-              <Icon name="md-thumbs-up" />
               <Text>확인</Text>
             </Button>
             <Button
@@ -158,7 +156,6 @@ class SettingVote extends Component {
               }}
               style={styles.no}
             >
-              <Icon name="md-thumbs-down" />
               <Text>취소</Text>
             </Button>
           </Form>

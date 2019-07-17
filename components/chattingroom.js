@@ -188,7 +188,7 @@ export default class Chattingroom extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.alertNewUser = this.alertNewUser.bind(this);
 
-    const chat = {
+    let chat = {
       userId: this.state.userId,
       roomId: this.state.rommId,
       message: this.state.message,

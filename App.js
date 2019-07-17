@@ -16,7 +16,8 @@ class App extends Component {
       clickSignup: false,
       loading: true,
       nickname: "송이준",
-      userId: 1
+      userId: 1,
+      onVote: false
     };
   }
 
