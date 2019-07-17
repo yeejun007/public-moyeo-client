@@ -10,7 +10,8 @@ import {
   FooterTab,
   Button,
   Icon,
-  Badge
+  Badge,
+  Form
 } from "native-base";
 
 export default class Myschedule extends Component {
@@ -18,7 +19,9 @@ export default class Myschedule extends Component {
     super(props);
     this.state = { 
       chosenDate: new Date(),
-      scheduleData: null,
+      scheduleData: [],
+      first: true,
+      // userId: this.props.screenProps.rootState.userId
     };
   }
 
@@ -26,42 +29,35 @@ export default class Myschedule extends Component {
     this.setState({ chosenDate: newDate });
   }
 
-  // componentDidMount = () => {
-  //   // fetch(`http://koreanjson.com/users`, {
-  //   //   method: 'GET',
-  //   // //  headers: {"x-access-token" : token},
-  //   // }).then(response => {
-  //   //   return response.json()
-  //   // }).then(json => {
-  //   //   //console.log(json)
-  //   //   this.setState ({
-  //   //     rooms: json
-  //   //   })      
-  //   // }).catch(err => console.log(err))
-  //   if(this.state.first) {
-  //     this.fnfetch();
-  //   }
-  // }
+  componentDidMount = () => {
+    if(this.state.first) {
+      this.fnfetch();
+    }
+  }
   
-  // fnfetch = () => {
-  //   fetch(`http://localhost:3000/schedules?userId={Number}`, {
-  //     method: 'GET',
-  //   //  headers: {"x-access-token" : token},
-  //   }).then(response => {
-  //     return response.json()
-  //   }).then(json => {
-  //     this.setState ({
-  //       scheduleData: json.data
-  //     })
-           
-  //   }).catch(err => console.log(err))
-  // }
+  fnfetch = () => {
+    fetch(`http://koreanjson.com/users/schedules?${this.state.userId}`, {
+      method: 'GET',
+    // headers: {"x-access-token" : token}
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      if(json.success === true) {
+        this.setState ({
+          scheduleData: json.data,
+          first : false,
+        })
+      } else {
+        throw new Error({error: '내 채팅방 리스트 불러오기 실패 '})
+      }
+      // console.log(json)      
+    }).catch(err => console.log(err))
+  }
 
 
 
   render() {
     this.setDate = this.setDate.bind(this);
-
     return (
       <Container>
         <Content>
@@ -81,6 +77,16 @@ export default class Myschedule extends Component {
             disabled={false}
           />
           <Text>날짜: {this.state.chosenDate.toString().substr(4, 12)}</Text>
+          
+          <ScrollView style={styles.ScrollView}>
+            {this.state.scheduleData.length === 0
+            ? <Form></Form>
+            : this.state.scheduleData.map((val) => {
+              return <Text style={styles.Text} key={val.id}>모임:{val.schdduleTitle}  약속시간:{val.promiseTime}</Text> //여기 api 스펠링체크해야함
+            })
+            }
+          </ScrollView>
+          
         </Content>
         <Footer>
           <FooterTab>
@@ -119,6 +125,20 @@ export default class Myschedule extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ScrollView: {
+    width: 400,
+    borderColor: 'black',
+    borderWidth: 1
+  },
+  Text: {
+    fontSize: 30,
+    color: 'blue',
+    borderColor: 'black',
+    borderWidth: 1
+  }
+})
 
 
 

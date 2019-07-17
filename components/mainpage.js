@@ -57,13 +57,12 @@ export default class Mainpage extends Component {
   }
  
   serverData = (selected1,selected2,searchValue,lastRoomId, callback) => {
-    const limit = 7
+    // const limit = 7
     console.log(typeof lastRoomId, lastRoomId)
-    //fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=${limit}&roomTitle=${searchValue}&roomId=${lastRoomId}`, {
-     fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=7&roomTitle=${searchValue}&roomId=${lastRoomId}`,{
+    fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=7&roomTitle=${searchValue}&roomId=${lastRoomId}`,{
 
       method: 'GET',
-      //headers: {"x-access-token" : this.state.token},
+   // headers: {"x-access-token" : this.state.token},
     }).then(response => {
       return response.json()
     }).then(json => {
@@ -76,7 +75,7 @@ export default class Mainpage extends Component {
     }).catch(err => console.log(err))
   };
   
-  // serverData = (callback) => {
+// serverData = (callback) => {
 //   fetch(`http://koreanjson.com/users`, {
 //     method: 'GET',
 //     // headers: {"x-access-token" : token},
@@ -125,9 +124,9 @@ plusSearchClick = (event) => {
   let lastRoomId = undefined;
   if(this.state.rooms.length !== 0) {
     this.lastRoomId = this.state.rooms[this.state.rooms.length-1].id
-    console.log('this.lastRoomId---->', this.lastRoomId)
+    // console.log('this.lastRoomId---->', this.lastRoomId)
   }
-  console.log('this.lastRoomId---->', this.lastRoomId)
+  // console.log('this.lastRoomId---->', this.lastRoomId)
   this.serverData(this.state.selected1,this.state.selected2,this.state.searchValue,this.lastRoomId,this.searchRooms)
 }
 
@@ -136,7 +135,7 @@ plusSearchClick = (event) => {
 
   render() {
     
-    //console.log('this.state-->', this.state)
+    // console.log('this.state-->', this.state)
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);

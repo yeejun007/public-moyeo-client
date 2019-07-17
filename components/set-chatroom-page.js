@@ -36,8 +36,8 @@ class ChatroomSet extends Component {
       category: this.props.navigation.state.params.category,
       //userId: this.props.screenprops.rootstate.userId 확인필요
     }
-    //console.log(this.props.navigation.state)
-    console.log('this---->', this)
+    // console.log(this.props.navigation.state)
+    // console.log('this---->', this)
   }
 
   onValueChange1(value) {
@@ -78,16 +78,15 @@ class ChatroomSet extends Component {
     }).then(response => {
       return response.json()
     }).then(json => {
-      console.log(json.data)
+      // console.log(json.data)
       callback(json.data)
     }).catch(err => console.log(err))
   };
   
 createClicked = (event) => {
-  console.log('this.roomData--->', this.roomData)
+  // console.log('this.roomData--->', this.roomData)
   event.preventDefault();
   this.serverData(this.roomData, this.createRoom)
-  //this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom}) 지워도 됨 시험해보려고 작성
 }
 
 createRoom = (result) => {
@@ -112,7 +111,7 @@ createRoom = (result) => {
     this.onChangeText2 = this.onChangeText2.bind(this);
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this)
-    console.log(this.state)
+    // console.log(this.state)
     return (
       
       <Container>

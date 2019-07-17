@@ -19,14 +19,15 @@ import {
 
 
 export default class Mychatting extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       rooms: [
       ],
-      roomCount: null,
-      keyword: null,
+      roomCount: undefined,
+      keyword: undefined,
       first: true,
+      // userId: this.props.screenProps.rootState.userId
     };
   }
 
@@ -60,18 +61,22 @@ export default class Mychatting extends Component {
   }
 
   fnfetch = () => {
-    fetch(`http://koreanjson.com/users`, {
+    fetch(`http://koreanjson.com/users/list?${this.state.userId}`, {
       method: 'GET',
-    //  headers: {"x-access-token" : token},
+    // headers: {"x-access-token" : token}
     }).then(response => {
       return response.json()
     }).then(json => {
-      this.setState ({
-        rooms: json,
-        roomCount: json.length,
-        first : false,
-      })
-      console.log(json)      
+      if(json.success === true) {
+        this.setState ({
+          rooms: json.data,
+          roomCount: json.data.length,
+          first : false,
+        })
+      } else {
+        throw new Error({error: '내 채팅방 리스트 불러오기 실패 '})
+      }
+      // console.log(json)      
     }).catch(err => console.log(err))
   }
 
@@ -93,7 +98,7 @@ export default class Mychatting extends Component {
     if(this.state.keyword) {
       console.log('----->')
       let searchArr = this.state.rooms.filter((val) => {
-        return val.city.indexOf(this.state.keyword) > -1
+        return val.roomTitle.indexOf(this.state.keyword) > -1
       });
       this.setState({
         rooms: searchArr,
@@ -106,7 +111,7 @@ export default class Mychatting extends Component {
       
 
   render() {
-    //console.log('this.state----->', this.state)
+    // console.log('this.state----->', this.state)
     
     return (
       <Container style={styles.container}>
@@ -125,7 +130,7 @@ export default class Mychatting extends Component {
           {this.state.rooms.length === 0 
           ? <Form></Form> 
           : this.state.rooms.map((val) => {
-            return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+            return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.roomTitle}</Text>
             })}
           </ScrollView>
 
@@ -133,7 +138,7 @@ export default class Mychatting extends Component {
         <Footer>
           <FooterTab>
             <Button
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() => this.props.navigation.navigate("Home", {roomCount: this.state.roomCount})} // 이거 쓸수 있는 지 확인해봐야함
               vertical
             >
               <Icon name="home" />
