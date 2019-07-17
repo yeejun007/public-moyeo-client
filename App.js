@@ -6,6 +6,7 @@ import { AppLoading } from "expo";
 import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
+import ClientSocket from "./socket/clientsocket";
 
 class App extends Component {
   constructor() {
@@ -19,6 +20,12 @@ class App extends Component {
       userId: 1,
       onVote: false
     };
+
+    // ClientSocket.on("resultPole", data =>{
+    //   this.setState({
+    //     onVote: data.result
+    //   })
+    // })
   }
 
   async componentDidMount() {

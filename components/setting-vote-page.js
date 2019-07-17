@@ -75,7 +75,9 @@ class SettingVote extends Component {
   }
 
   snedCreatedPole(ele) {
-    ClientSocket.emit("createPole", { pole: ele });
+    // ClientSocket.emit("createPole", { pole: ele });
+    this.props.navi.screenProps.rootState.onVote = true;
+    // this.props.navi.screenProps.changeVoteState();
   }
 
   render() {

@@ -35,8 +35,7 @@ const styles = StyleSheet.create({
     top: 10
   },
   anotherYesOrNo: {
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: "row"
   },
   yes: {
     width: 150,
@@ -164,8 +163,10 @@ class SelectVote extends Component {
                 <View>
                   <Text>찬성 {this.state.yes}</Text>
                 </View>
-                <View>
-                  <Text>반대 {this.state.no}</Text>
+                <View style={{ marginRight: 10 }}>
+                  <Text>
+                    {"     "}반대 {this.state.no}
+                  </Text>
                 </View>
               </Form>
             )}
