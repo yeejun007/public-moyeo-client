@@ -64,7 +64,7 @@ class SettingVote extends Component {
     this.state = {
       onVote: this.props.navi.screenProps.rootState.onVote,
       poleTitle: null,
-      roomId: this.props.navi.navigation.state.params.roomData.roomId,
+      roomId: this.props.navi.navigation.state.params.poleData.roomId,
       poleContent: null,
       expireTime: null,
       promiseTime: null,

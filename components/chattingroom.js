@@ -216,7 +216,7 @@ export default class Chattingroom extends Component {
             <Button
               onPress={() => {
                 this.props.navigation.navigate("Chattingmenu", {
-                  roomData: {
+                  poleData: {
                     permissionId: this.state.permissionId,
                     roomId: this.state.roomId,
                     poleTitle: this.state.poleTitle,

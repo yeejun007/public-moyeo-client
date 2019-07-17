@@ -57,14 +57,14 @@ class SelectVote extends Component {
       onVote: this.props.navi.screenProps.rootState.onVote,
       token: this.props.navi.screenProps.rootState.token,
       userId: this.props.navi.screenProps.rootState.userId,
-      roomId: this.props.navi.navigation.state.params.roomData.roomId,
-      host: this.props.navi.navigation.state.params.roomData.permissionId,
-      expireTime: this.props.navi.navigation.state.params.roomData.expireTime,
-      locationX: null,
-      locationY: null,
-      poleContent: this.props.navi.navigation.state.params.roomData.poleContent,
-      poleTitle: this.props.navi.navigation.state.params.roomData.poleTitle,
-      promiseTime: this.props.navi.navigation.state.params.roomData.promiseTime,
+      roomId: this.props.navi.navigation.state.params.poleData.roomId,
+      host: this.props.navi.navigation.state.params.poleData.permissionId,
+      expireTime: this.props.navi.navigation.state.params.poleData.expireTime,
+      locationX: this.props.navi.navigation.state.params.poleData.locationX,
+      locationY: this.props.navi.navigation.state.params.poleData.locationY,
+      poleContent: this.props.navi.navigation.state.params.poleData.poleContent,
+      poleTitle: this.props.navi.navigation.state.params.poleData.poleTitle,
+      promiseTime: this.props.navi.navigation.state.params.poleData.promiseTime,
       clicked: "",
       yes: 0,
       no: 0,
@@ -99,7 +99,7 @@ class SelectVote extends Component {
       <Container style={styles.container}>
         <Content style={styles.content}>
           <Text>약속시간</Text>
-          <Text>{this.state.promiseTime}ㅇㅇㅇ</Text>
+          <Text>{this.state.promiseTime}</Text>
         </Content>
         <Content style={styles.content}>
           <Text>만날장소 (카카오맵)</Text>
