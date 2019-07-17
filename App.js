@@ -21,11 +21,11 @@ class App extends Component {
       onVote: false
     };
 
-    //   ClientSocket.on("resultPole", data => {
-    //     this.setState({
-    //       onVote: data.result
-    //     });
-    //   });
+    ClientSocket.on("resultPole", data => {
+      this.setState({
+        onVote: data.result
+      });
+    });
   }
 
   async componentDidMount() {
@@ -65,10 +65,6 @@ class App extends Component {
     this.LogOut = this.LogOut.bind(this);
     this.changeVoteState = this.changeVoteState.bind(this);
     this.LoginSuccess = this.LoginSuccess.bind(this);
-
-    // if (this.state.isLogin === true) {
-    //   this.state.clickSignup = true;
-    // }
 
     if (this.state.loading) {
       return <AppLoading />;

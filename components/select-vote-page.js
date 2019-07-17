@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import {
+  Root,
   Container,
   Button,
   Icon,
@@ -73,12 +74,12 @@ class SelectVote extends Component {
       poleResult: this.props.navi.navigation.state.params.poleData.poleResult
     };
 
-    // ClientSocket.on("returnAttendence", data => {
-    //   this.setState({
-    //     yes: data.result.agree.count,
-    //     no: data.result.disagree.count,
-    //   });
-    // });
+    ClientSocket.on("returnAttendence", data => {
+      this.setState({
+        yes: data.result.agree.count,
+        no: data.result.disagree.count
+      });
+    });
   }
 
   render() {
@@ -89,7 +90,7 @@ class SelectVote extends Component {
       att: this.state.yesOrno,
       roomId: this.state.roomId,
       userId: this.state.userId,
-      poleId: null,
+      poleId: this.state.poleId,
       token: this.state.token
     };
 
@@ -100,91 +101,93 @@ class SelectVote extends Component {
     };
 
     if (this.state.clicked === "투표종료") {
-      // ClientSocket.emit("expirePole", { expire: expire });
+      ClientSocket.emit("expirePole", { expire: expire });
       this.props.navi.navigation.goBack();
     }
 
     return (
-      <Container style={styles.container}>
-        <Content style={styles.content}>
-          <Text>약속시간</Text>
-          <Text>{this.state.promiseTime}</Text>
-        </Content>
-        <Content style={styles.content}>
-          <Text>만날장소 (카카오맵)</Text>
-        </Content>
-        <Content style={styles.content}>
-          <Text>투표 종료시간</Text>
-          <Text>{this.state.expireTime}</Text>
-        </Content>
-        <Content padder>
-          <Button
-            block
-            style={
-              this.state.userId === this.state.host && !this.state.poleResult
-                ? styles.button
-                : styles.buttonHide
-            }
-            onPress={() =>
-              ActionSheet.show(
-                {
-                  options: BUTTONS,
-                  cancelButtonIndex: CANCEL_INDEX,
-                  title: "투표를 종료하시겠습니까?"
-                },
-                buttonIndex => {
-                  this.setState({ clicked: BUTTONS[buttonIndex] });
-                }
-              )
-            }
-          >
-            <Text style={{ fontSize: 15 }}>투표종료</Text>
-          </Button>
-          {this.state.onVote === true ? (
-            <Form style={styles.yesorno}>
-              <Button
-                onPress={() => {
-                  this.setState({
-                    yesOrno: true
-                  });
-                  ClientSocket.emit("attendencePole", {
-                    attendence: attendence
-                  });
-                }}
-                style={styles.yes}
-              >
-                <Icon name="md-thumbs-up" />
-                <Text>찬성 {"       " + this.state.yes}</Text>
-              </Button>
-              <Button
-                onPress={() => {
-                  this.setState({
-                    yesOrno: false
-                  });
-                  ClientSocket.emit("attendencePole", {
-                    attendence: attendence
-                  });
-                }}
-                style={styles.no}
-              >
-                <Icon name="md-thumbs-down" />
-                <Text>반대 {"       " + this.state.no}</Text>
-              </Button>
-            </Form>
-          ) : (
-            <Form style={styles.anotherYesOrNo}>
-              <View>
-                <Text style={{ fontSize: 15 }}>찬성 {this.state.yes}</Text>
-              </View>
-              <View>
-                <Text style={{ fontSize: 15 }}>
-                  {"           "}반대 {this.state.no}
-                </Text>
-              </View>
-            </Form>
-          )}
-        </Content>
-      </Container>
+      <Root>
+        <Container style={styles.container}>
+          <Content style={styles.content}>
+            <Text>약속시간</Text>
+            <Text>{this.state.promiseTime}</Text>
+          </Content>
+          <Content style={styles.content}>
+            <Text>만날장소 (카카오맵)</Text>
+          </Content>
+          <Content style={styles.content}>
+            <Text>투표 종료시간</Text>
+            <Text>{this.state.expireTime}</Text>
+          </Content>
+          <Content padder>
+            <Button
+              block
+              style={
+                this.state.userId === this.state.host && !this.state.poleResult
+                  ? styles.button
+                  : styles.buttonHide
+              }
+              onPress={() =>
+                ActionSheet.show(
+                  {
+                    options: BUTTONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    title: "투표를 종료하시겠습니까?"
+                  },
+                  buttonIndex => {
+                    this.setState({ clicked: BUTTONS[buttonIndex] });
+                  }
+                )
+              }
+            >
+              <Text style={{ fontSize: 15 }}>투표종료</Text>
+            </Button>
+            {this.state.onVote === true ? (
+              <Form style={styles.yesorno}>
+                <Button
+                  onPress={() => {
+                    this.setState({
+                      yesOrno: true
+                    });
+                    ClientSocket.emit("attendencePole", {
+                      attendence: attendence
+                    });
+                  }}
+                  style={styles.yes}
+                >
+                  <Icon name="md-thumbs-up" />
+                  <Text>찬성 {"       " + this.state.yes}</Text>
+                </Button>
+                <Button
+                  onPress={() => {
+                    this.setState({
+                      yesOrno: false
+                    });
+                    ClientSocket.emit("attendencePole", {
+                      attendence: attendence
+                    });
+                  }}
+                  style={styles.no}
+                >
+                  <Icon name="md-thumbs-down" />
+                  <Text>반대 {"       " + this.state.no}</Text>
+                </Button>
+              </Form>
+            ) : (
+              <Form style={styles.anotherYesOrNo}>
+                <View>
+                  <Text style={{ fontSize: 15 }}>찬성 {this.state.yes}</Text>
+                </View>
+                <View>
+                  <Text style={{ fontSize: 15 }}>
+                    {"           "}반대 {this.state.no}
+                  </Text>
+                </View>
+              </Form>
+            )}
+          </Content>
+        </Container>
+      </Root>
     );
   }
 }

@@ -47,8 +47,6 @@ export default class Startuppage extends Component {
         // if (this.state.token) {
         //   this.state.token = result.token;
         // }
-        console.log(this.state.isLogin);
-        console.log(this.props);
         if (this.state.isLogin) {
           this.props.LoginSuccess();
           this.props.gobackMain();

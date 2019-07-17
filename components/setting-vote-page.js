@@ -77,22 +77,14 @@ class SettingVote extends Component {
   }
 
   snedCreatedPole(ele) {
-    // ClientSocket.emit("createPole", { pole: ele });
-    this.props.navi.screenProps.rootState.onVote = true;
-    // this.props.navi.screenProps.changeVoteState();
-  }
-
-  typing(ele, title) {
-    clearTimeout(this.timer);
-    this.state[title] = ele;
-    this.timer = setTimeout(() => {
-      this.setState({});
-    }, 1000);
+    ClientSocket.emit("createPole", { pole: ele });
+    // this.props.navi.screenProps.rootState.onVote = true;
+    this.props.navi.screenProps.changeVoteState();
+    // App.js 에 있는 함수
   }
 
   render() {
     this.snedCreatedPole = this.snedCreatedPole.bind(this);
-    this.typing = this.typing.bind(this);
 
     let createdPoleData = {
       poleTitle: this.state.poleTitle,
@@ -113,7 +105,9 @@ class SettingVote extends Component {
               <Label>투표제목</Label>
               <Input
                 onChangeText={text => {
-                  this.typing(text, "poleTitle");
+                  this.setState({
+                    poleTitle: text
+                  });
                 }}
               />
             </Item>
@@ -123,7 +117,9 @@ class SettingVote extends Component {
               <Label>약속시간(년YYYY,월MM,일DD,시HH,분MM)</Label>
               <Input
                 onChangeText={text => {
-                  this.typing(text, "promiseTime");
+                  this.setState({
+                    promiseTime: text
+                  });
                 }}
               />
             </Item>
@@ -133,7 +129,21 @@ class SettingVote extends Component {
               <Label>장소, 방장전달사항 입력</Label>
               <Input
                 onChangeText={text => {
-                  this.typing(text, "poleContent");
+                  this.setState({
+                    poleContent: text
+                  });
+                }}
+              />
+            </Item>
+          </Form>
+          <Form>
+            <Item floatingLabel>
+              <Label>투표 기한</Label>
+              <Input
+                onChangeText={text => {
+                  this.setState({
+                    expireTime: text
+                  });
                 }}
               />
             </Item>

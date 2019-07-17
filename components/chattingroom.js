@@ -26,9 +26,7 @@ const styles = StyleSheet.create({
     width: 300
   },
   footeritem: {
-    // marginRight: 65,
     flexDirection: "row",
-    // justifyContent: "space-between",
     bottom: 10,
     left: 20
   },
@@ -50,12 +48,12 @@ export default class Chattingroom extends Component {
     super(props);
     this.state = {
       Date: "2019년 7월 15일",
-      newUser: "송이준",
+      newUser: this.props.screenProps.rootState.nickname,
       message: null,
       userId: this.props.screenProps.rootState.userId,
-      roomId: 1, //this.props.navigation.state.params.roomData.roomId
+      roomId: this.props.navigation.state.params.roomData.roomId, // 태홍님한테 받는거
       nickname: this.props.screenProps.rootState.nickname,
-      permissionId: 1, //this.props.navigation.state.params.roomData.permissionId
+      permissionId: this.props.navigation.state.params.roomData.permissionId, // 태홍님한테 받는거
       poleId: null,
       poleTitle: null,
       poleContent: null,
@@ -72,109 +70,47 @@ export default class Chattingroom extends Component {
           message: "으으으으음",
           nickname: "송이준",
           createdAt: "23:09"
-        },
-        {
-          userId: 2,
-          rommId: 1,
-          message: "으으으으음",
-          nickname: "민태홍",
-          createdAt: "23:14"
-        },
-        {
-          userId: 3,
-          rommId: 1,
-          message: "으으으으음",
-          nickname: "송재영",
-          createdAt: "23:15"
-        },
-        {
-          userId: 4,
-          rommId: 1,
-          message: "으으으으음",
-          nickname: "이재익",
-          createdAt: "23:33"
         }
       ]
     };
 
     this.alertMessage = `${this.state.newUser} 님이 입장하였습니다`;
-    // ClientSocket.emit("ServerEntryRoom", {
-    //   data: {
-    //     roomId: this.state.roomId,
-    //     userId: this.state.userId,
-    //     nickname: this.state.nickname,
-    //     token: this.state.token
-    //   }
-    // });
 
-    // ClientSocket.on("ClientEntryRoom", data => {
-    //   this.state.newUser = data.nickname.nickname;
-    //   this.setState({});
-    // });
+    ClientSocket.emit("ServerEntryRoom", {
+      data: {
+        roomId: this.state.roomId,
+        userId: this.state.userId,
+        nickname: this.state.nickname,
+        token: this.state.token
+      }
+    });
 
-    // ClientSocket.on("messageTclient", data => {
-    //   this.state.messages.push(data);
-    //   this.setState({});
-    // });
+    ClientSocket.on("ClientEntryRoom", data => {
+      this.state.newUser = data.nickname.nickname;
+      this.setState({});
+    });
 
-    // ClientSocket.on("resultPole", data => {
-    //   this.state.poleResult = data.result;
-    // });
+    ClientSocket.on("messageTclient", data => {
+      this.state.messages.push(data);
+      this.setState({});
+    });
 
-    // ClientSocket.on("successPole", data => {
-    //   this.setState({
-    //     poleId: data.sendPole.id,
-    //     poleTitle: data.sendPole.poleTitle,
-    //     poleContent: data.sendPole.poleContent,
-    //     expireTime: data.sendPole.poleContent,
-    //     promiseTime: data.sendPole.promiseTime,
-    //     locationX: data.sendPole.locationX,
-    //     locationY: data.sendPole.locationY
-    //   });
-    // });
+    ClientSocket.on("resultPole", data => {
+      this.setState({ poleResult: data.result });
+    });
+
+    ClientSocket.on("successPole", data => {
+      this.setState({
+        poleId: data.sendPole.id,
+        poleTitle: data.sendPole.poleTitle,
+        poleContent: data.sendPole.poleContent,
+        expireTime: data.sendPole.poleContent,
+        promiseTime: data.sendPole.promiseTime,
+        locationX: data.sendPole.locationX,
+        locationY: data.sendPole.locationY
+      });
+    });
   }
-
-  // componentDidMount() {
-  //   const socket = io("http://127.0.0.1:3000/", {
-  //     transports: ["websocket"],
-  //     forceNew: true,
-  //     secure: true,
-  //     timeout: 10000,
-  //     jsonp: false,
-  //     autoConnect: false,
-  //     agent: "-",
-  //     path: "/", // Whatever your path is
-  //     pfx: "-",
-  //     // // // key: token, // Using token-based auth.
-  //     // // // passphrase: cookie, // Using cookie auth.
-  //     cert: "-",
-  //     ca: "-",
-  //     ciphers: "-",
-  //     rejectUnauthorized: "-",
-  //     perMessageDeflate: "-",
-  //     forceBase64: 1
-  //   });
-  // }
-
-  // sendMessage() {
-  // let chat = {
-  //   message: this.state.message,
-  //   userId: this.state.userId,
-  //   roomId: this.state.rommId,
-  //   nickname: this.state.nickname,
-  //   token: null
-  // };
-  //   fetch("  ", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "x-access-token": this.state.token
-  //     },
-  //     body: JSON.stringify({
-  //       chat: chat
-  //     })
-  //   });
-  // }
 
   sendMessage(ele) {
     ClientSocket.emit("messageFclient", { chat: ele });
