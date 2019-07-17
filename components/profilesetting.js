@@ -17,8 +17,8 @@ import {
 } from "native-base";
 
 export default class ProfileSetting extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       selected: undefined
     };

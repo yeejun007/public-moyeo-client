@@ -186,8 +186,8 @@ plusSearchClick = (event) => {
             <Searchchatroom navi={this.props.navigation} searchRoom={this.state.rooms} />
         </View>
         </Content>
-        <Button vertical onPress={this.plusSearchClick}>
-              <Icon name="home" />
+        <Button vertical style={styles.plus} onPress={this.plusSearchClick}>
+              <Icon name="md-download" />
               <Text>더보기</Text>
         </Button>
         <View>
@@ -295,6 +295,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  plus: {
+    marginBottom: 22,
+    borderRadius: 400,
+    left: 10,
+    backgroundColor: "#5067FF",
+    // padding: 5,
+    // height: 200,
+    // width: 200,
+    // borderRadius:400 원만드는 방법 하지만 글씨 잘림
   }
 });
 
