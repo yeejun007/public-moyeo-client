@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Content, List } from "native-base";
 import Participants from "./participants";
 import ClientSocket from "../socket/clientsocket";
