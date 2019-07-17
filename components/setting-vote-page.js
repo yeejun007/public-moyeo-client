@@ -87,7 +87,7 @@ class SettingVote extends Component {
     this.state[title] = ele;
     this.timer = setTimeout(() => {
       this.setState({});
-    }, 2000);
+    }, 1000);
   }
 
   render() {
