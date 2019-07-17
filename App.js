@@ -21,11 +21,11 @@ class App extends Component {
       onVote: false
     };
 
-    // ClientSocket.on("resultPole", data =>{
-    //   this.setState({
-    //     onVote: data.result
-    //   })
-    // })
+    //   ClientSocket.on("resultPole", data => {
+    //     this.setState({
+    //       onVote: data.result
+    //     });
+    //   });
   }
 
   async componentDidMount() {
@@ -45,30 +45,14 @@ class App extends Component {
     this.setState({ isLogin: false, token: null });
   }
 
+  LoginSuccess() {
+    this.setState({ isLogin: true });
+  }
+
   changeVoteState() {
     this.setState({
       onVote: true
     });
-  }
-
-  checkUser() {
-    this.setState({ isLogin: true });
-    // fetch("   ", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "x-access-token": this.state.token
-    //   }
-    // })
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(result => {
-    //     this.state.isLogin = result.isLogin;
-    //     if (this.state.token) {
-    //       this.state.token = result.token;
-    //     }
-    //   });
   }
 
   clickSignup() {
@@ -76,11 +60,15 @@ class App extends Component {
   }
 
   render() {
-    this.checkUser = this.checkUser.bind(this);
     this.clickSignup = this.clickSignup.bind(this);
     this.gobackMain = this.gobackMain.bind(this);
     this.LogOut = this.LogOut.bind(this);
     this.changeVoteState = this.changeVoteState.bind(this);
+    this.LoginSuccess = this.LoginSuccess.bind(this);
+
+    // if (this.state.isLogin === true) {
+    //   this.state.clickSignup = true;
+    // }
 
     if (this.state.loading) {
       return <AppLoading />;
@@ -89,7 +77,9 @@ class App extends Component {
       return (
         <Startuppage
           clickSignup={this.clickSignup}
-          checkUser={this.checkUser}
+          isLogin={this.state.isLogin}
+          gobackMain={this.gobackMain}
+          LoginSuccess={this.LoginSuccess}
         />
       );
     }

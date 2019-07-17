@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   yesorno: {
     flex: 1,
     flexDirection: "row",
-    left: 5,
+    left: 10,
     top: 10
   },
   anotherYesOrNo: {
@@ -59,6 +59,7 @@ class SelectVote extends Component {
       userId: this.props.navi.screenProps.rootState.userId,
       roomId: this.props.navi.navigation.state.params.poleData.roomId,
       host: this.props.navi.navigation.state.params.poleData.permissionId,
+      poleId: this.props.navi.navigation.state.params.poleData.poleId,
       expireTime: this.props.navi.navigation.state.params.poleData.expireTime,
       locationX: this.props.navi.navigation.state.params.poleData.locationX,
       locationY: this.props.navi.navigation.state.params.poleData.locationY,
@@ -68,7 +69,8 @@ class SelectVote extends Component {
       clicked: "",
       yes: 0,
       no: 0,
-      yesOrno: null
+      yesOrno: null,
+      poleResult: this.props.navi.navigation.state.params.poleData.poleResult
     };
 
     // ClientSocket.on("returnAttendence", data => {
@@ -91,7 +93,14 @@ class SelectVote extends Component {
       token: this.state.token
     };
 
+    let expire = {
+      poleId: this.state.poleId,
+      roomId: this.state.roomId,
+      token: this.state.token
+    };
+
     if (this.state.clicked === "투표종료") {
+      // ClientSocket.emit("expirePole", { expire: expire });
       this.props.navi.navigation.goBack();
     }
 
@@ -112,7 +121,7 @@ class SelectVote extends Component {
           <Button
             block
             style={
-              this.state.userId === this.state.host
+              this.state.userId === this.state.host && !this.state.poleResult
                 ? styles.button
                 : styles.buttonHide
             }

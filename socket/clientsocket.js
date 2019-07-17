@@ -2,7 +2,7 @@
 // // socket.io-client/dist/socket.io.js
 // // const SocketIoClient = require("socket.io-client");
 
-// const socket = SocketIoClient("http://127.0.0.1:3002/", {
+// const socket = SocketIoClient("http://13.209.76.220:3000", {
 //   transports: ["websocket"],
 //   forceNew: true,
 //   secure: true,
@@ -21,12 +21,12 @@
 //   perMessageDeflate: "-"
 // });
 
-// this.socket.emit("newChatFclient", "안녕 서버야");
-// this.socket.on("newDataTclient", data => {
+// socket.connect();
+
+// socket.emit("newChatFclient", "안녕 서버야");
+// socket.on("newDataTclient", data => {
 //   console.log("서버로부터 받은 응답: ", data);
 // });
-
-// socket.connect();
 
 // export default socket;
 

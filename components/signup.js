@@ -21,12 +21,6 @@ import {
   View
 } from "native-base";
 
-// let email = null;
-// let pwd = null;
-// let region = null;
-// let age = null;
-// let gender = null;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -58,7 +52,7 @@ export default class Signup extends Component {
   }
 
   sendUserInfo() {
-    fetch("   ", {
+    return fetch("http://13.209.76.220:3000/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

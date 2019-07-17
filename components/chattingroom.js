@@ -63,6 +63,7 @@ export default class Chattingroom extends Component {
       promiseTime: null,
       locationX: null,
       locationY: null,
+      poleResult: false,
       token: this.props.screenProps.rootState.token,
       messages: [
         {
@@ -114,6 +115,10 @@ export default class Chattingroom extends Component {
     // ClientSocket.on("messageTclient", data => {
     //   this.state.messages.push(data);
     //   this.setState({});
+    // });
+
+    // ClientSocket.on("resultPole", data => {
+    //   this.state.poleResult = data.result;
     // });
 
     // ClientSocket.on("successPole", data => {
@@ -219,12 +224,14 @@ export default class Chattingroom extends Component {
                   poleData: {
                     permissionId: this.state.permissionId,
                     roomId: this.state.roomId,
+                    poleId: this.state.poleId,
                     poleTitle: this.state.poleTitle,
                     poleContent: this.state.poleContent,
                     expireTime: this.state.expireTime,
                     promiseTime: this.state.promiseTime,
                     locationX: this.state.locationX,
-                    locationY: this.state.locationY
+                    locationY: this.state.locationY,
+                    poleResult: this.state.poleResult
                   }
                 });
               }}

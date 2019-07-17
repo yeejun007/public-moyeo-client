@@ -18,12 +18,47 @@ import {
 } from "native-base";
 
 export default class Startuppage extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: this.props.isLogin,
+      email: null,
+      password: null
+    };
+  }
+
+  checkUser() {
+    // this.setState({ isLogin: true });
+    return fetch("http://13.209.76.220:3000/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(result => {
+        this.state.isLogin = result.isLogin;
+        // if (this.state.token) {
+        //   this.state.token = result.token;
+        // }
+        console.log(this.state.isLogin);
+        console.log(this.props);
+        if (this.state.isLogin) {
+          this.props.LoginSuccess();
+          this.props.gobackMain();
+        }
+      });
   }
 
   render() {
+    this.checkUser = this.checkUser.bind(this);
+
     return (
       <Container>
         <Content style={styles.content}>
@@ -33,19 +68,31 @@ export default class Startuppage extends Component {
           <View style={styles.mainview}>
             <Form>
               <Item inlineLabel last>
-                <Label>Username</Label>
-                <Input />
+                <Label>Email</Label>
+                <Input
+                  onChangeText={text => {
+                    this.setState({
+                      email: text
+                    });
+                  }}
+                />
               </Item>
               <Item inlineLabel last>
                 <Label>Password</Label>
-                <Input />
+                <Input
+                  onChangeText={text => {
+                    this.setState({
+                      password: text
+                    });
+                  }}
+                />
               </Item>
             </Form>
             <Form style={styles.buttonform}>
               <View>
                 <Button
                   onPress={() => {
-                    return this.props.checkUser();
+                    return this.checkUser();
                   }}
                   block
                   style={{ width: 350 }}
