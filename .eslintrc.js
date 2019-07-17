@@ -11,7 +11,8 @@ module.exports = {
     "react/prop-types": 0,
     "no-underscore-dangle": 0,
     "import/imports-first": ["error", "absolute-first"],
-    "import/newline-after-import": "error"
+    "import/newline-after-import": "error",
+    "no-nested-ternary": 0
   },
   globals: {
     window: true,

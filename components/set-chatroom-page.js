@@ -26,14 +26,8 @@ class ChatroomSet extends Component {
   constructor(props){
     super(props)
     this.state = {
-      setRoom: {
-        id: Number,
-        roomTitle: String,
-        region: String,
-        category: String,
-        poleId: Number,
-        permissionId: Number
-      },
+      setRoom: undefined,
+       //token: this.props.screenProps.rootstate.isLogin,
       roomSubject: undefined,
       attendance: undefined,
       selected1: undefined,
@@ -69,29 +63,36 @@ class ChatroomSet extends Component {
       attendance: value
     });
   }
-//   serverData = (roomData,callback) => {
-//     fetch(`http://localhost:3000/rooms/create`, {
-//       method: 'POST',
-//       headers: {"x-access-token" : token},
-//       body: JSON.stringify(roomData)
-//     }).then(response => {
-//       return response.json()
-//     }).then(json => {
-//       console.log(json)
-//       return callback(json)
-//     }).catch(err => console.log(err))
-//   };
+  
+  serverData = (roomData,callback) => {
+    fetch(`http://13.209.76.220:3000/rooms/create`, {
+      // headers: {
+      //   "x-access-token" : this.state.token,
+      //   "Content-Type": "application/json"
+      // }
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify(roomData)
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      console.log(json.data)
+      callback(json.data)
+    }).catch(err => console.log(err))
+  };
   
 createClicked = (event) => {
-  //console.log('this.roomData--->', this.roomData)
-  //event.preventDefault();
-  severData(this.roomData, createRoom)
+  console.log('this.roomData--->', this.roomData)
+  event.preventDefault();
+  this.serverData(this.roomData, this.createRoom)
   //this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom}) 지워도 됨 시험해보려고 작성
 }
 
-createRoom(result) {
+createRoom = (result) => {
   this.setState({
-    setRoom: result.data
+    setRoom: result
   })
   this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom})
 }
@@ -101,10 +102,10 @@ createRoom(result) {
     
     this.roomData = {
       roomTitle: this.state.roomSubject,
-      roomSize: this.state.attendance,
+      roomSize: Number(this.state.attendance),
       region: this.state.selected1,
       category: this.state.selected2,
-      userId: 3    
+      userId: 1    
     }
 
     this.onChangeText1 = this.onChangeText1.bind(this);

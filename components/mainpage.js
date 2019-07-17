@@ -21,20 +21,21 @@ import Searchchatroom from "./searchchatroom";
 
 
 export default class Mainpage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       rooms: [
     
       ],
+      //token: this.props.screenProps.rootstate.isLogin,
       searchValue: undefined,
       selected1: undefined,
       selected2: undefined,
       active: false,
     };
-    this.region = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구','강북구', '도봉구', '노원구', '은평구', '서대문구', 
+    this.region = ['::지역::','종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구','강북구', '도봉구', '노원구', '은평구', '서대문구', 
   '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
-    this.category = ['맛집탐방', '운동', '공연관람', '영화관람', '스터디모임']
+    this.category = ['::카테고리::','맛집탐방', '운동', '공연관람', '영화관람', '스터디모임']
   }
 
   onValueChange1(value) {
@@ -55,63 +56,87 @@ export default class Mainpage extends Component {
     })
   }
  
-  // serverData = (selected1,selected2,serchValue,lastRoomId callback) => {
-  //   fetch(`http://localhost:3000/roooms/list?region=${selected1}&category=${selected2}&limit=7&search=${searchValue}&roomId={lastRoomId}`, {
-  //     method: 'GET',
-  //     headers: {"x-access-token" : token},
-  //   }).then(response => {
-  //     return response.json()
-  //   }).then(json => {
-  //     console.log(json)
-  //     return callback(json)
-  //   }).catch(err => console.log(err))
-  // };
+  serverData = (selected1,selected2,searchValue,lastRoomId, callback) => {
+    const limit = 7
+    console.log(typeof lastRoomId, lastRoomId)
+    //fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=${limit}&roomTitle=${searchValue}&roomId=${lastRoomId}`, {
+     fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=7&roomTitle=${searchValue}&roomId=${lastRoomId}`,{
 
-serchRoom = (result) => {
-    // const newData = JSON.parse(JSON.stringify(this.state.rooms))
-    // console.log('newData--->', newData)
-    // newData = newData.push(data)
-    this.setState({
-      rooms: result.data // newData
-    })
-  }
-
-serverData = (callback) => {
-  fetch(`http://koreanjson.com/users`, {
-    method: 'GET',
-    // headers: {"x-access-token" : token},
+      method: 'GET',
+      //headers: {"x-access-token" : this.state.token},
     }).then(response => {
       return response.json()
     }).then(json => {
-      //console.log('json---->', json)
-      callback(json)
+      console.log('json-------->', json)
+      if(json.success === true) {
+        callback(json.data)
+      } else {
+        throw new Error({error: '룸 리스트 불러오기 실패 '})
+      }
     }).catch(err => console.log(err))
   };
+  
+  // serverData = (callback) => {
+//   fetch(`http://koreanjson.com/users`, {
+//     method: 'GET',
+//     // headers: {"x-access-token" : token},
+//     }).then(response => {
+//       return response.json()
+//     }).then(json => {
+//       //console.log('json---->', json)
+//       callback(json)
+//     }).catch(err => console.log(err))
+//   }; koreajson
 
 
-serchClicked = (event) => {
-  //console.log('event-->', event)
-  //console.log('lastroomId---->', this.lastRoomId) //마지막 방번호 보내기
+searchRooms = (result) => {
+    if(result.length === 0) {
+      this.setState({
+        rooms: result
+      })
+    }
+    if(this.state.rooms.length !== 0 && this.state.rooms[this.state.rooms.length-1].id !== result[result.length-1].id) {
+      let newdata = Array.from(this.state.rooms)
+      newdata = newdata.concat(result)
+      this.setState({
+        rooms: newdata
+      })
+    } else {
+      this.setState({
+        rooms: result
+      })
+    }
+  }
+
+
+
+
+searchClicked = (event) => {
+  // console.log('event-->', event)
+  // console.log('lastroomId---->', this.lastRoomId) //마지막 방번호 보내기
   event.preventDefault();
   let lastRoomId = undefined;
-  //this.severData(this.state.serchValue,this.state.selected1,this.state.selected2,this.lastRoomId,this.serchRoom)
-  this.serverData(this.serchRoom)
+  this.serverData(this.state.selected1,this.state.selected2,this.state.searchValue,this.lastRoomId,this.searchRooms)
+  // this.serverData(this.searchRooms)
 }
 
-plusSerchClick = (event) => {
+plusSearchClick = (event) => {
   event.preventDefault();
   let lastRoomId = undefined;
   if(this.state.rooms.length !== 0) {
     this.lastRoomId = this.state.rooms[this.state.rooms.length-1].id
+    console.log('this.lastRoomId---->', this.lastRoomId)
   }
-  //this.severData(this.state.serchValue, this.state.selected1,this.state.selected2,this.lastroomId,this.serchRoom)
+  console.log('this.lastRoomId---->', this.lastRoomId)
+  this.serverData(this.state.selected1,this.state.selected2,this.state.searchValue,this.lastRoomId,this.searchRooms)
 }
 
 
 
 
   render() {
-    console.log('this.stat-->', this.state)
+    
+    //console.log('this.state-->', this.state)
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
@@ -124,7 +149,7 @@ plusSerchClick = (event) => {
             <Icon name="beer" />
             <Input placeholder="Search" ref={(input)=>{this.textInput = input}} 
             onChangeText={this.onChangeValue}/>
-            <Button style={styles.button} onPress={this.serchClicked} >
+            <Button style={styles.button} onPress={this.searchClicked} >
               <Icon name="ios-search" />
             </Button>
           </Item>
@@ -162,7 +187,7 @@ plusSerchClick = (event) => {
             <Searchchatroom navi={this.props.navigation} searchRoom={this.state.rooms} />
         </View>
         </Content>
-        <Button vertical onPress={this.plusSerchClick}>
+        <Button vertical onPress={this.plusSearchClick}>
               <Icon name="home" />
               <Text>더보기</Text>
         </Button>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import {
   Container,
   Header,
@@ -16,17 +16,17 @@ import {
   Body,
   View
 } from "native-base";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 export default class Mychatting extends Component {
   constructor() {
     super();
     this.state = {
       rooms: [
-
       ],
-      keyword: '',
-      searchValue: null,
+      roomCount: null,
+      keyword: null,
+      first: true,
     };
   }
 
@@ -43,63 +43,92 @@ export default class Mychatting extends Component {
   // }
   
   componentDidMount = () => {
+    // fetch(`http://koreanjson.com/users`, {
+    //   method: 'GET',
+    // //  headers: {"x-access-token" : token},
+    // }).then(response => {
+    //   return response.json()
+    // }).then(json => {
+    //   //console.log(json)
+    //   this.setState ({
+    //     rooms: json
+    //   })      
+    // }).catch(err => console.log(err))
+    if(this.state.first) {
+      this.fnfetch();
+    }
+  }
+
+  fnfetch = () => {
     fetch(`http://koreanjson.com/users`, {
       method: 'GET',
     //  headers: {"x-access-token" : token},
     }).then(response => {
       return response.json()
     }).then(json => {
-      //console.log(json)
       this.setState ({
-        rooms: json
-      })      
+        rooms: json,
+        roomCount: json.length,
+        first : false,
+      })
+      console.log(json)      
     }).catch(err => console.log(err))
   }
 
   onChangeValue = (value) => {
     this.setState({
-      keyword: value
+      keyword: value,
     })
   }
 
-  // searchView = (rooms) => {
-  //   let searchArr = rooms.filter((val) => {
-  //       return val.roomTitle.indexOf(this.state.keyword) > -1
-  //     });
-  //     return searchArr.map((data) => {
-  //       return  <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
-  //     })
-  //     if(this.state.rooms.length === 0) {
-  //       return <Text>참여 중인 채팅방이 없습니다</Text>
-  //     } else {
-  //     this.state.rooms.map((val) => {
-  //       return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
-  //     })
-  //   } 
-  
-  
-  
+  searchView = () => {
+    // if(this.state.keyword) {
+    //   let searchArr = rooms.filter((val) => {
+    //     return val.roomTitle.indexOf(this.state.keyword) > -1
+    //   });
+    //   this.setState({
+    //     rooms: searchArr,
+    //   })
+    // }
+    if(this.state.keyword) {
+      console.log('----->')
+      let searchArr = this.state.rooms.filter((val) => {
+        return val.city.indexOf(this.state.keyword) > -1
+      });
+      this.setState({
+        rooms: searchArr,
+      })
+    } else {
+      this.fnfetch();
+    }
+  }
+
+      
 
   render() {
-    console.log('this.state----->', this.state)
-
+    //console.log('this.state----->', this.state)
+    
     return (
       <Container style={styles.container}>
         <Header searchBar rounded style={styles.header}>
           <Item>
             <Icon name="contacts" />
-            <Input placeholder="Search" ref={(input)=>{this.textInput = input}} onChangeText={this.onChangeValue} />
-            <Button style={styles.button} transparent >
+            <Input placeholder="Search" onChangeText={this.onChangeValue} />
+            <Button style={styles.button} transparent onPress={this.searchView}>
               <Icon name="ios-search" />
             </Button>
           </Item>
         </Header>
         <Content style={styles.content}>
+          
           <ScrollView style={styles.ScrollView}>
-            {this.state.rooms.length === 0 ? <Form></Form> : this.state.rooms.map((val) => {
-              return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+          {this.state.rooms.length === 0 
+          ? <Form></Form> 
+          : this.state.rooms.map((val) => {
+            return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
             })}
           </ScrollView>
+
         </Content>
         <Footer>
           <FooterTab>
@@ -112,7 +141,7 @@ export default class Mychatting extends Component {
             </Button>
             <Button vertical badge>
               <Badge>
-                <Text>7</Text>
+                <Text>{this.state.roomCount}</Text>
               </Badge>
               <Icon name="beer" />
               <Text>내 모임</Text>
@@ -173,3 +202,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
+// {this.state.searchMyRoom.length > 0 
+//   ? this.state.searchMyRoom.map((val) => {
+//     return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text> 
+//     })
+//   : this.state.rooms.length === 0 
+//   ? <Form></Form> 
+//   : this.state.rooms.map((val) => {
+//     return <Text style={styles.Text} onPress={()=>this.props.navigation.navigate("Chattingroom",{roomData: val})} key={val.id}>{val.city}</Text>
+//     })}         

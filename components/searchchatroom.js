@@ -30,14 +30,14 @@ export default class Searchchatroom extends Component {
   }
 
 render() {
-  console.log('----')
+  //console.log('----')
   return (
     <ScrollView style={styles.Container}>
       {this.props.searchRoom.length === 0 ? <Text style={styles.Text}>검색결과 없음</Text> : this.props.searchRoom.map((val) => {
         //console.log('val--->', val)
         let roomData = val;
         //console.log('this.props.navi.navigate--->', this.props.navi)
-        return  <Text style={styles.Text} onPress={() => this.props.navi.navigate("Chattingroom", {roomData: roomData})} key={val.id} rData={val}>{val.city}</Text>
+        return  <Text style={styles.Text} onPress={() => this.props.navi.navigate("Chattingroom", {roomData: roomData})} key={val.id} rData={val}>{val.roomTitle}</Text>
       })}  
     </ScrollView>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StyleSheet, ScrollView } from "react-native";
 import {
   Container,
   Header,
@@ -15,12 +16,48 @@ import {
 export default class Myschedule extends Component {
   constructor(props) {
     super(props);
-    this.state = { chosenDate: new Date() };
+    this.state = { 
+      chosenDate: new Date(),
+      scheduleData: null,
+    };
   }
 
   setDate(newDate) {
     this.setState({ chosenDate: newDate });
   }
+
+  // componentDidMount = () => {
+  //   // fetch(`http://koreanjson.com/users`, {
+  //   //   method: 'GET',
+  //   // //  headers: {"x-access-token" : token},
+  //   // }).then(response => {
+  //   //   return response.json()
+  //   // }).then(json => {
+  //   //   //console.log(json)
+  //   //   this.setState ({
+  //   //     rooms: json
+  //   //   })      
+  //   // }).catch(err => console.log(err))
+  //   if(this.state.first) {
+  //     this.fnfetch();
+  //   }
+  // }
+  
+  // fnfetch = () => {
+  //   fetch(`http://localhost:3000/schedules?userId={Number}`, {
+  //     method: 'GET',
+  //   //  headers: {"x-access-token" : token},
+  //   }).then(response => {
+  //     return response.json()
+  //   }).then(json => {
+  //     this.setState ({
+  //       scheduleData: json.data
+  //     })
+           
+  //   }).catch(err => console.log(err))
+  // }
+
+
 
   render() {
     this.setDate = this.setDate.bind(this);
@@ -82,3 +119,6 @@ export default class Myschedule extends Component {
     );
   }
 }
+
+
+
