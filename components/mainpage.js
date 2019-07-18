@@ -73,7 +73,7 @@ export default class Mainpage extends Component {
     super(props);
     this.state = {
       rooms: [],
-      //token: this.props.screenProps.rootState.token,
+      token: this.props.screenProps.rootState.token,
       searchValue: undefined,
       selected1: undefined,
       selected2: undefined,

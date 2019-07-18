@@ -1,12 +1,16 @@
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
 import Startuppage from "./components/startuppage";
 import AppContainer from "./navigation/Navigation";
 import Signup from "./components/signup";
 import ClientSocket from "./socket/clientsocket";
+console.ignoredYellowBox = ["Remote debugger"];
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings([
+  "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?"
+]);
 
 class App extends Component {
   constructor() {

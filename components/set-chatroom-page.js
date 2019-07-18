@@ -19,6 +19,7 @@ import {
   Picker
 } from "native-base";
 import { StyleSheet } from "react-native";
+import ClientSocket from "../socket/clientsocket";
 
 const styles = StyleSheet.create({
   container: {},
@@ -51,6 +52,7 @@ class ChatroomSet extends Component {
       region: this.props.navigation.state.params.region,
       category: this.props.navigation.state.params.category
     };
+    console.log("======== seeting chat room props", this.props);
     console.log("settting chat room page state===========", this.state);
   }
 
@@ -94,7 +96,13 @@ class ChatroomSet extends Component {
         return response.json();
       })
       .then(json => {
-        // console.log(json.data)
+        console.log("=======ㅊㅐ팅방 만들기 ", json.data);
+        ClientSocket.emit("ServerEntryRoom", {
+          roomId: json.data.id,
+          userId: this.props.screenProps.rootState.userId,
+          nickname: this.props.screenProps.rootState.nickname,
+          token: this.props.screenProps.rootState.token
+        });
         callback(json.data);
       })
       .catch(err => console.log(err));
