@@ -26,7 +26,13 @@ export default class Chattingmenu extends Component {
       <Container>
         <Header style={styles.header}>
           <Left>
-            <Button transparent style={styles.closebutton}>
+            <Button
+              onPress={() => {
+                return this.props.navigation.goBack();
+              }}
+              transparent
+              style={styles.closebutton}
+            >
               <Icon name="close" />
             </Button>
           </Left>
@@ -39,16 +45,16 @@ export default class Chattingmenu extends Component {
               </TabHeading>
             }
           >
-            <Tab1 />
+            <Tab1 navi={this.props} />
           </Tab>
-          <Tab navi={this.props.navigation}
+          <Tab
             heading={
               <TabHeading>
                 <Text>투표생성</Text>
               </TabHeading>
             }
           >
-            <Tab2 />
+            <Tab2 navi={this.props} />
           </Tab>
           <Tab
             heading={
@@ -57,7 +63,7 @@ export default class Chattingmenu extends Component {
               </TabHeading>
             }
           >
-            <Tab3 navi={this.props.navigation} />
+            <Tab3 navi={this.props} />
           </Tab>
         </Tabs>
       </Container>

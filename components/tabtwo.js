@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import SettingVote from  "./setting-vote-page";
+import { StyleSheet, View } from "react-native";
+import SettingVote from "./setting-vote-page";
 
 export default class Tabtwo extends Component {
   constructor() {
@@ -11,7 +11,7 @@ export default class Tabtwo extends Component {
   render() {
     return (
       <View style={styles.container}>
-         <SettingVote />
+        <SettingVote navi={this.props.navi} />
       </View>
     );
   }

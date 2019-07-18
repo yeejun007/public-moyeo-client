@@ -60,7 +60,7 @@ export default class Myschedule extends Component {
     this.setDate = this.setDate.bind(this);
     return (
       <Container>
-        <Content>
+        <Content style={{ marginTop: 25 }}>
           <DatePicker
             defaultDate={new Date(2019, 4, 4)}
             minimumDate={new Date(2019, 1, 1)}

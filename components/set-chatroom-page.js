@@ -1,12 +1,10 @@
+
 import React, { Component } from 'react';
 import { Container, Header, Title, Button, Left, Right, Body, Icon, Footer, FooterTab, Text, Content, Form, Item, Input, Label, Picker} from 'native-base';
 import { StyleSheet } from 'react-native';
 
-
-
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   header: {
     marginTop: 24
   },
@@ -14,17 +12,17 @@ const styles = StyleSheet.create({
     bottom: 30
   },
   titletext: {
-    fontSize: 25,
+    fontSize: 25
   },
   completechatroom: {
-    marginTop : 30,
-    left : 145
+    marginTop: 30,
+    left: 145
   }
 });
 
 class ChatroomSet extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       setRoom: undefined,
        //token: this.props.screenProps.rootstate.isLogin,
@@ -36,8 +34,6 @@ class ChatroomSet extends Component {
       category: this.props.navigation.state.params.category,
       //userId: this.props.screenprops.rootstate.userId 확인필요
     }
-    // console.log(this.props.navigation.state)
-    // console.log('this---->', this)
   }
 
   onValueChange1(value) {
@@ -51,7 +47,6 @@ class ChatroomSet extends Component {
       selected2: value
     });
   }
-  
   onChangeText1(value) {
     this.setState({
       roomSubject: value
@@ -96,7 +91,6 @@ createRoom = (result) => {
   this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom})
 }
 
-
   render() {
     
     this.roomData = {
@@ -117,8 +111,13 @@ createRoom = (result) => {
       <Container>
         <Header style={styles.header}>
           <Left>
-            <Button transparent>
-              <Icon name='arrow-back' />
+            <Button
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+              transparent
+            >
+              <Icon name="arrow-back" />
             </Button>
           </Left>
           <Body>
@@ -127,24 +126,24 @@ createRoom = (result) => {
           <Right />
         </Header>
         <Content>
-        <Item style={styles.header}>
+          <Item style={styles.header}>
             <Body>
               <Text style={styles.titletext}>채팅방 설정</Text>
             </Body>
-        </Item>
-        <Form>
+          </Item>
+          <Form>
             <Item floatingLabel>
-              <Icon active name='home' />
+              <Icon active name="home" />
               <Label>채팅방 제목</Label>
               <Input onChangeText={this.onChangeText1}/>
             </Item>
             <Item floatingLabel last>
-              <Icon active name='home' />
+              <Icon active name="home" />
               <Label>채팅방 인원</Label>
               <Input onChangeText={this.onChangeText2}/>
             </Item>
             <Item picker>
-            <Label>지역 설정</Label>
+              <Label>지역 설정</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -182,7 +181,7 @@ createRoom = (result) => {
             <Text>채팅방 설정 완료</Text>
           </Button>
         </Content>
-        
+
         <Footer>
           <FooterTab>
             <Button full>

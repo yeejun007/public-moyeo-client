@@ -13,7 +13,8 @@ import {
   Button,
   Text,
   Picker,
-  Icon
+  Icon,
+  Left
 } from "native-base";
 
 export default class ProfileSetting extends Component {
@@ -35,6 +36,19 @@ export default class ProfileSetting extends Component {
 
     return (
       <Container>
+        <Header style={styles.header}>
+          <Left>
+            <Button
+              onPress={() => {
+                return this.props.navigation.goBack();
+              }}
+              transparent
+              style={styles.closebutton}
+            >
+              <Icon name="close" />
+            </Button>
+          </Left>
+        </Header>
         <Content style={styles.content}>
           <Form>
             <Item inlineLabel>
@@ -68,12 +82,23 @@ export default class ProfileSetting extends Component {
               </Picker>
             </Item>
           </Form>
-          <Button block style={styles.button}>
-            <Text>확인</Text>
-          </Button>
-          <Button block style={styles.button} onPress={()=>{this.props.screenProps.LogOut()}}>
-            <Text>로그아웃</Text>
-          </Button>
+          <Form style={styles.buttonbox}>
+            <Item style={{ top: 5 }}>
+              <Button block style={styles.button}>
+                <Text>확인</Text>
+              </Button>
+            </Item>
+            <Item style={{ top: 10 }}>
+              <Button block style={styles.button} onPress={()=>{this.props.screenProps.LogOut()}}>
+                <Text>로그아웃</Text>
+              </Button>
+            </Item>
+            <Item style={{ top: 15 }}>
+              <Button block style={styles.button}>
+                <Text>회원탈퇴</Text>
+              </Button>
+            </Item>
+          </Form>
         </Content>
         <Footer>
           <FooterTab>
@@ -89,8 +114,23 @@ export default class ProfileSetting extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    top: 100,
-    height: 500
+    top: 50,
+    height: 700
+  },
+  header: {
+    height: 80
+  },
+  closebutton: {
+    top: 10,
+    right: 120
+  },
+  buttonbox: {
+    top: 20,
+    height: 300
+  },
+  buttonset: {
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   ageItem: {
     width: 100

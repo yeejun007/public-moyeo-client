@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    top: 24
+    top: 25
   },
   button: {
     left: 0,
