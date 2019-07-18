@@ -18,12 +18,19 @@ import {
 } from "native-base";
 
 export default class Chattingroom extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      //roomData: this.props.navigation.state.params.roomData
+    };
+    console.log('serchRoom--->', this.props.navigation.state.params.roomData)
+    //console.log('setChatRoom---->',this.props.navigation.state.params.roomData)
+    //console.log('this.state--->', this.state.roomData)
+    //console.log('mychatting---->', this.props.navigation.state.params.roomData)
   }
 
   render() {
+    
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>

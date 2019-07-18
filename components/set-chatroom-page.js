@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Button, Left, Right, Body, Icon, Footer, FooterTab, Text, Content, Form, Item, Input, Label, Picker} from 'native-base';
 import { StyleSheet } from 'react-native';
 
+
+
 const styles = StyleSheet.create({
   container: {
   },
@@ -18,33 +20,100 @@ const styles = StyleSheet.create({
     marginTop : 30,
     left : 145
   }
-
 });
 
 class ChatroomSet extends Component {
   constructor(props){
     super(props)
     this.state = {
+      setRoom: undefined,
+       //token: this.props.screenProps.rootstate.isLogin,
+      roomSubject: undefined,
+      attendance: undefined,
       selected1: undefined,
-      selected2: undefined
+      selected2: undefined,
+      region: this.props.navigation.state.params.region,
+      category: this.props.navigation.state.params.category,
+      //userId: this.props.screenprops.rootstate.userId 확인필요
     }
+    // console.log(this.props.navigation.state)
+    // console.log('this---->', this)
   }
 
-  onValueChange1(value: string) {
+  onValueChange1(value) {
     this.setState({
       selected1: value
     });
   }
 
-  onValueChange2(value: string) {
+  onValueChange2(value) {
     this.setState({
       selected2: value
     });
   }
- 
+  
+  onChangeText1(value) {
+    this.setState({
+      roomSubject: value
+    });
+  }
+
+  onChangeText2(value) {
+    this.setState({
+      attendance: value
+    });
+  }
+  
+  serverData = (roomData,callback) => {
+    fetch(`http://13.209.76.220:3000/rooms/create`, {
+      // headers: {
+      //   "x-access-token" : this.state.token,
+      //   "Content-Type": "application/json"
+      // }
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify(roomData)
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      // console.log(json.data)
+      callback(json.data)
+    }).catch(err => console.log(err))
+  };
+  
+createClicked = (event) => {
+  // console.log('this.roomData--->', this.roomData)
+  event.preventDefault();
+  this.serverData(this.roomData, this.createRoom)
+}
+
+createRoom = (result) => {
+  this.setState({
+    setRoom: result
+  })
+  this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom})
+}
+
 
   render() {
+    
+    this.roomData = {
+      roomTitle: this.state.roomSubject,
+      roomSize: Number(this.state.attendance),
+      region: this.state.selected1,
+      category: this.state.selected2,
+      userId: 1    
+    }
+
+    this.onChangeText1 = this.onChangeText1.bind(this);
+    this.onChangeText2 = this.onChangeText2.bind(this);
+    this.onValueChange1 = this.onValueChange1.bind(this);
+    this.onValueChange2 = this.onValueChange2.bind(this)
+    // console.log(this.state)
     return (
+      
       <Container>
         <Header style={styles.header}>
           <Left>
@@ -67,12 +136,12 @@ class ChatroomSet extends Component {
             <Item floatingLabel>
               <Icon active name='home' />
               <Label>채팅방 제목</Label>
-              <Input />
+              <Input onChangeText={this.onChangeText1}/>
             </Item>
             <Item floatingLabel last>
               <Icon active name='home' />
               <Label>채팅방 인원</Label>
-              <Input />
+              <Input onChangeText={this.onChangeText2}/>
             </Item>
             <Item picker>
             <Label>지역 설정</Label>
@@ -84,13 +153,11 @@ class ChatroomSet extends Component {
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
                 selectedValue={this.state.selected1}
-                onValueChange={this.onValueChange1.bind(this)}
+                onValueChange={this.onValueChange1}
               >
-                <Picker.Item label="서울" value="key0" />
-                <Picker.Item label="부산" value="key1" />
-                <Picker.Item label="광주" value="key2" />
-                <Picker.Item label="대전" value="key3" />
-                <Picker.Item label="대구" value="key4" />
+               {this.state.region.map((val) => {
+                return  <Picker.Item label={val} value={val} key={val}/>
+              })}
               </Picker>
               <Label>카테고리</Label>
               <Picker
@@ -101,17 +168,17 @@ class ChatroomSet extends Component {
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
                 selectedValue={this.state.selected2}
-                onValueChange={this.onValueChange2.bind(this)}
+                onValueChange={this.onValueChange2}
               >
-                <Picker.Item label="혼밥모임" value="key0" />
-                <Picker.Item label="공부모임" value="key1" />
-                <Picker.Item label="소개팅" value="key2" />
-                <Picker.Item label="술모임" value="key3" />
-                <Picker.Item label="취미모임" value="key4" />
+               {this.state.category.map((val) => {
+                return  <Picker.Item label={val} value={val} key={val}/>
+              })}
               </Picker>
             </Item>
           </Form>
-          <Button primary style={styles.completechatroom}>
+          <Button primary style={styles.completechatroom}
+            onPress ={this.createClicked}
+          >
             <Text>채팅방 설정 완료</Text>
           </Button>
         </Content>
