@@ -55,7 +55,7 @@ class SelectVote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      onVote: this.props.navi.screenProps.rootState.onVote,
+      onVote: false,
       token: this.props.navi.screenProps.rootState.token,
       userId: this.props.navi.screenProps.rootState.userId,
       roomId: this.props.navi.navigation.state.params.poleData.roomId,
@@ -77,6 +77,12 @@ class SelectVote extends Component {
       this.setState({
         yes: data.result.agree.count,
         no: data.result.disagree.count
+      });
+    });
+
+    ClientSocket.on("resultPole", data => {
+      this.setState({
+        onVote: data.result
       });
     });
   }

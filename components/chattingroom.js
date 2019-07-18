@@ -73,16 +73,19 @@ export default class Chattingroom extends Component {
     this.alertMessage = `${this.state.newUser} 님이 입장하였습니다`;
 
     ClientSocket.on("ClientEntryRoom", data => {
-      // this.state.newUser = data.nickname.nickname;
+      this.state.newUser = data.nickname.nickname;
       this.setState({
-        newUser: data.nickname.nickname
+        // newUser: data.nickname.nickname
       });
     });
 
     ClientSocket.on("messageTclient", data => {
       console.log("=========== Message From Server", data);
       this.messages.push(data.chat);
-      this.setState({ Date: data.chat.createdAt });
+      this.setState({
+        Date: data.chat.createdAt
+        // messages: [...this.state.messages, data.chat]
+      });
     });
     // ClientSocket.on("tokenExpire", data => {
     //   console.log("====== 에러 메세지====", data);
@@ -135,7 +138,7 @@ export default class Chattingroom extends Component {
 
     let chat = {
       userId: this.state.userId,
-      roomId: this.state.rommId,
+      roomId: this.state.roomId,
       message: this.state.message,
       nickname: this.state.nickname,
       token: this.state.token
