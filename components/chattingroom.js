@@ -155,7 +155,6 @@ export default class Chattingroom extends Component {
       this.alertPole = "투표가 파토났습니다";
       this.removeAlertPole();
     }
-
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>

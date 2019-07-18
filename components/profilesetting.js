@@ -18,8 +18,8 @@ import {
 } from "native-base";
 
 export default class ProfileSetting extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       selected: undefined
     };
@@ -89,7 +89,7 @@ export default class ProfileSetting extends Component {
               </Button>
             </Item>
             <Item style={{ top: 10 }}>
-              <Button block style={styles.button}>
+              <Button block style={styles.button} onPress={()=>{this.props.screenProps.LogOut()}}>
                 <Text>로그아웃</Text>
               </Button>
             </Item>
@@ -136,6 +136,8 @@ const styles = StyleSheet.create({
     width: 100
   },
   button: {
+    marginTop: 30,
+    left: 15,
     width: 380
   },
   pickerItem: {
