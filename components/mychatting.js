@@ -61,7 +61,7 @@ export default class Mychatting extends Component {
   }
 
   fnfetch = () => {
-    fetch(`http://koreanjson.com/users/list?${this.state.userId}`, {
+    fetch(`http://13.209.76.220:3000/users/list?userId=6}`, {
       method: 'GET',
     // headers: {"x-access-token" : token}
     }).then(response => {
@@ -111,7 +111,7 @@ export default class Mychatting extends Component {
       
 
   render() {
-    // console.log('this.state----->', this.state)
+    console.log('this.state----->', this.state)
     
     return (
       <Container style={styles.container}>

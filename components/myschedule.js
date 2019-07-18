@@ -36,7 +36,7 @@ export default class Myschedule extends Component {
   }
   
   fnfetch = () => {
-    fetch(`http://koreanjson.com/users/schedules?${this.state.userId}`, {
+    fetch(`http://13.209.76.220:3000/users/schedules?$userId{this.state.userId}`, {
       method: 'GET',
     // headers: {"x-access-token" : token}
     }).then(response => {
@@ -48,7 +48,7 @@ export default class Myschedule extends Component {
           first : false,
         })
       } else {
-        throw new Error({error: '내 채팅방 리스트 불러오기 실패 '})
+        throw new Error({error: '내 스케쥴 리스트 불러오기 실패 '})
       }
       // console.log(json)      
     }).catch(err => console.log(err))

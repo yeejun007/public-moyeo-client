@@ -56,7 +56,7 @@ export default class Mainpage extends Component {
     })
   }
  
-  serverData = (selected1,selected2,searchValue,lastRoomId, callback) => {
+  serverData = (selected1,selected2,searchValue,lastRoomId, callback, search) => {
     // const limit = 7
     console.log(typeof lastRoomId, lastRoomId)
     fetch(`http://13.209.76.220:3000/rooms?region=${selected1}&category=${selected2}&limit=7&roomTitle=${searchValue}&roomId=${lastRoomId}`,{
@@ -68,7 +68,7 @@ export default class Mainpage extends Component {
     }).then(json => {
       console.log('json-------->', json)
       if(json.success === true) {
-        callback(json.data)
+        callback(json.data, search)
       } else {
         throw new Error({error: '룸 리스트 불러오기 실패 '})
       }
@@ -88,13 +88,13 @@ export default class Mainpage extends Component {
 //   }; koreajson
 
 
-searchRooms = (result) => {
+searchRooms = (result, search) => {
     if(result.length === 0) {
       this.setState({
         rooms: result
       })
-    }
-    if(this.state.rooms.length !== 0 && this.state.rooms[this.state.rooms.length-1].id !== result[result.length-1].id) {
+    } //더보기 함수 새로 만들어서 처리하기
+    if(this.state.rooms.length !== 0 && this.state.rooms[this.state.rooms.length-1].id !== result[result.length-1].id && search !== true) {
       let newdata = Array.from(this.state.rooms)
       newdata = newdata.concat(result)
       this.setState({
@@ -115,7 +115,7 @@ searchClicked = (event) => {
   // console.log('lastroomId---->', this.lastRoomId) //마지막 방번호 보내기
   event.preventDefault();
   let lastRoomId = undefined;
-  this.serverData(this.state.selected1,this.state.selected2,this.state.searchValue,this.lastRoomId,this.searchRooms)
+  this.serverData(this.state.selected1,this.state.selected2,this.state.searchValue,this.lastRoomId,this.searchRooms,true)
   // this.serverData(this.searchRooms)
 }
 
@@ -135,7 +135,7 @@ plusSearchClick = (event) => {
 
   render() {
     
-    // console.log('this.state-->', this.state)
+    console.log('this.state-->', this.state)
     
     this.onValueChange1 = this.onValueChange1.bind(this);
     this.onValueChange2 = this.onValueChange2.bind(this);
