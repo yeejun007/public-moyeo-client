@@ -1,7 +1,24 @@
-
-import React, { Component } from 'react';
-import { Container, Header, Title, Button, Left, Right, Body, Icon, Footer, FooterTab, Text, Content, Form, Item, Input, Label, Picker} from 'native-base';
-import { StyleSheet } from 'react-native';
+import React, { Component } from "react";
+import {
+  Container,
+  Header,
+  Title,
+  Button,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Footer,
+  FooterTab,
+  Text,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  Picker
+} from "native-base";
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {},
@@ -25,15 +42,16 @@ class ChatroomSet extends Component {
     super(props);
     this.state = {
       setRoom: undefined,
-       //token: this.props.screenProps.rootstate.isLogin,
+      token: this.props.screenProps.rootState.token,
+      userId: this.props.screenProps.rootState.userId,
       roomSubject: undefined,
       attendance: undefined,
       selected1: undefined,
       selected2: undefined,
       region: this.props.navigation.state.params.region,
-      category: this.props.navigation.state.params.category,
-      //userId: this.props.screenprops.rootstate.userId 확인필요
-    }
+      category: this.props.navigation.state.params.category
+    };
+    console.log("settting chat room page state===========", this.state);
   }
 
   onValueChange1(value) {
@@ -47,6 +65,7 @@ class ChatroomSet extends Component {
       selected2: value
     });
   }
+
   onChangeText1(value) {
     this.setState({
       roomSubject: value
@@ -58,9 +77,9 @@ class ChatroomSet extends Component {
       attendance: value
     });
   }
-  
-  serverData = (roomData,callback) => {
-    fetch(`http://13.209.76.220:3000/rooms/create`, {
+
+  serverData = (roomData, callback) => {
+    fetch(`http://13.209.76.220:3000/rooms/`, {
       // headers: {
       //   "x-access-token" : this.state.token,
       //   "Content-Type": "application/json"
@@ -68,46 +87,49 @@ class ChatroomSet extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(roomData)
-    }).then(response => {
-      return response.json()
-    }).then(json => {
-      // console.log(json.data)
-      callback(json.data)
-    }).catch(err => console.log(err))
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        // console.log(json.data)
+        callback(json.data);
+      })
+      .catch(err => console.log(err));
   };
-  
-createClicked = (event) => {
-  // console.log('this.roomData--->', this.roomData)
-  event.preventDefault();
-  this.serverData(this.roomData, this.createRoom)
-}
 
-createRoom = (result) => {
-  this.setState({
-    setRoom: result
-  })
-  this.props.navigation.navigate("Chattingroom", {roomData: this.state.setRoom})
-}
+  createClicked = () => {
+    // console.log('this.roomData--->', this.roomData)
+    // event.preventDefault();
+    this.serverData(this.roomData, this.createRoom);
+  };
+
+  createRoom = result => {
+    this.setState({
+      setRoom: result
+    });
+    this.props.navigation.navigate("Chattingroom", {
+      roomData: this.state.setRoom
+    });
+  };
 
   render() {
-    
+    this.onChangeText1 = this.onChangeText1.bind(this);
+    this.onChangeText2 = this.onChangeText2.bind(this);
+    this.onValueChange1 = this.onValueChange1.bind(this);
+    this.onValueChange2 = this.onValueChange2.bind(this);
+
     this.roomData = {
       roomTitle: this.state.roomSubject,
       roomSize: Number(this.state.attendance),
       region: this.state.selected1,
       category: this.state.selected2,
-      userId: 1    
-    }
+      userId: this.state.userId
+    };
 
-    this.onChangeText1 = this.onChangeText1.bind(this);
-    this.onChangeText2 = this.onChangeText2.bind(this);
-    this.onValueChange1 = this.onValueChange1.bind(this);
-    this.onValueChange2 = this.onValueChange2.bind(this)
-    // console.log(this.state)
     return (
-      
       <Container>
         <Header style={styles.header}>
           <Left>
@@ -135,12 +157,12 @@ createRoom = (result) => {
             <Item floatingLabel>
               <Icon active name="home" />
               <Label>채팅방 제목</Label>
-              <Input onChangeText={this.onChangeText1}/>
+              <Input onChangeText={this.onChangeText1} />
             </Item>
             <Item floatingLabel last>
               <Icon active name="home" />
               <Label>채팅방 인원</Label>
-              <Input onChangeText={this.onChangeText2}/>
+              <Input onChangeText={this.onChangeText2} />
             </Item>
             <Item picker>
               <Label>지역 설정</Label>
@@ -154,9 +176,9 @@ createRoom = (result) => {
                 selectedValue={this.state.selected1}
                 onValueChange={this.onValueChange1}
               >
-               {this.state.region.map((val) => {
-                return  <Picker.Item label={val} value={val} key={val}/>
-              })}
+                {this.state.region.map(val => {
+                  return <Picker.Item label={val} value={val} key={val} />;
+                })}
               </Picker>
               <Label>카테고리</Label>
               <Picker
@@ -169,14 +191,18 @@ createRoom = (result) => {
                 selectedValue={this.state.selected2}
                 onValueChange={this.onValueChange2}
               >
-               {this.state.category.map((val) => {
-                return  <Picker.Item label={val} value={val} key={val}/>
-              })}
+                {this.state.category.map(val => {
+                  return <Picker.Item label={val} value={val} key={val} />;
+                })}
               </Picker>
             </Item>
           </Form>
-          <Button primary style={styles.completechatroom}
-            onPress ={this.createClicked}
+          <Button
+            primary
+            style={styles.completechatroom}
+            onPress={() => {
+              this.createClicked();
+            }}
           >
             <Text>채팅방 설정 완료</Text>
           </Button>

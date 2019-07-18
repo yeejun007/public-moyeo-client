@@ -14,14 +14,29 @@ import {
   Form
 } from "native-base";
 
+const styles = StyleSheet.create({
+  ScrollView: {
+    width: 400,
+    borderColor: "black",
+    borderWidth: 1
+  },
+  Text: {
+    fontSize: 30,
+    color: "blue",
+    borderColor: "black",
+    borderWidth: 1
+  }
+});
+
 export default class Myschedule extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       chosenDate: new Date(),
       scheduleData: [],
       first: true,
-      // userId: this.props.screenProps.rootState.userId
+      userId: this.props.screenProps.rootState.userId,
+      token: this.props.screenProps.rootState.token
     };
   }
 
@@ -30,34 +45,38 @@ export default class Myschedule extends Component {
   }
 
   componentDidMount = () => {
-    if(this.state.first) {
+    if (this.state.first) {
       this.fnfetch();
     }
-  }
-  
+  };
+
   fnfetch = () => {
-    fetch(`http://13.209.76.220:3000/users/schedules?$userId{this.state.userId}`, {
-      method: 'GET',
-    // headers: {"x-access-token" : token}
-    }).then(response => {
-      return response.json()
-    }).then(json => {
-      if(json.success === true) {
-        this.setState ({
-          scheduleData: json.data,
-          first : false,
-        })
-      } else {
-        throw new Error({error: '내 스케쥴 리스트 불러오기 실패 '})
+    fetch(
+      `http://13.209.76.220:3000/users/schedules?$userId=${this.state.userId}`,
+      {
+        method: "GET"
+        // headers: {"x-access-token" : this.state.token}
       }
-      // console.log(json)      
-    }).catch(err => console.log(err))
-  }
-
-
+    )
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        if (json.success === true) {
+          this.setState({
+            scheduleData: json.data,
+            first: false
+          });
+        } else {
+          throw new Error({ error: "내 스케쥴 리스트 불러오기 실패 " });
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     this.setDate = this.setDate.bind(this);
+
     return (
       <Container>
         <Content style={{ marginTop: 25 }}>
@@ -77,16 +96,20 @@ export default class Myschedule extends Component {
             disabled={false}
           />
           <Text>날짜: {this.state.chosenDate.toString().substr(4, 12)}</Text>
-          
+
           <ScrollView style={styles.ScrollView}>
-            {this.state.scheduleData.length === 0
-            ? <Form></Form>
-            : this.state.scheduleData.map((val) => {
-              return <Text style={styles.Text} key={val.id}>모임:{val.schdduleTitle}  약속시간:{val.promiseTime}</Text> //여기 api 스펠링체크해야함
-            })
-            }
+            {this.state.scheduleData.length === 0 ? (
+              <Form></Form>
+            ) : (
+              this.state.scheduleData.map(val => {
+                return (
+                  <Text style={styles.Text} key={val.id}>
+                    모임:{val.schdduleTitle} 약속시간:{val.promiseTime}
+                  </Text>
+                ); //여기 api 스펠링체크해야함
+              })
+            )}
           </ScrollView>
-          
         </Content>
         <Footer>
           <FooterTab>
@@ -125,20 +148,3 @@ export default class Myschedule extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  ScrollView: {
-    width: 400,
-    borderColor: 'black',
-    borderWidth: 1
-  },
-  Text: {
-    fontSize: 30,
-    color: 'blue',
-    borderColor: 'black',
-    borderWidth: 1
-  }
-})
-
-
-

@@ -47,13 +47,13 @@ export default class Chattingroom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Date: "2019년 7월 15일",
+      Date: "",
       newUser: this.props.screenProps.rootState.nickname,
       message: null,
       userId: this.props.screenProps.rootState.userId,
-      roomId: 1, // 태홍님한테 받는거 this.props.navigation.state.params.roomData.roomId
+      roomId: this.props.navigation.state.params.roomData.id,
       nickname: this.props.screenProps.rootState.nickname,
-      permissionId: 1, // 태홍님한테 받는거 this.props.navigation.state.params.roomData.permissionId
+      permissionId: this.props.navigation.state.params.roomData.permissionId,
       poleId: null,
       poleTitle: null,
       poleContent: null,
@@ -62,38 +62,40 @@ export default class Chattingroom extends Component {
       locationX: null,
       locationY: null,
       poleResult: null,
-      token: this.props.screenProps.rootState.token,
-      messages: [
-        {
-          userId: 1,
-          rommId: 1,
-          message: "으으으으음",
-          nickname: "송이준",
-          createdAt: "23:09"
-        }
-      ]
+      token: this.props.screenProps.rootState.token
     };
+
+    this.messages = [];
+
+    console.log("chatting Room props========", props);
+    console.log("chatting Room state=======", this.state);
 
     this.alertMessage = `${this.state.newUser} 님이 입장하였습니다`;
 
-    ClientSocket.emit("ServerEntryRoom", {
-      data: {
-        roomId: this.state.roomId,
-        userId: this.state.userId,
-        nickname: this.state.nickname,
-        token: this.state.token
-      }
-    });
+    // ClientSocket.emit("ServerEntryRoom", {
+    //   data: {
+    //     roomId: this.state.roomId,
+    //     userId: this.state.userId,
+    //     nickname: this.state.nickname,
+    //     token: this.state.token
+    //   }
+    // });
 
     ClientSocket.on("ClientEntryRoom", data => {
-      this.state.newUser = data.nickname.nickname;
-      this.setState({});
+      // this.state.newUser = data.nickname.nickname;
+      this.setState({
+        newUser: data.nickname.nickname
+      });
     });
 
     ClientSocket.on("messageTclient", data => {
-      this.state.messages.push(data);
-      this.setState({});
+      console.log("=========== Message From Server", data);
+      this.messages.push(data.chat);
+      this.setState({ Date: data.chat.createdAt });
     });
+    // ClientSocket.on("tokenExpire", data => {
+    //   console.log("====== 에러 메세지====", data);
+    // });
 
     ClientSocket.on("resultPole", data => {
       this.setState({ poleResult: data.result });
@@ -155,6 +157,7 @@ export default class Chattingroom extends Component {
       this.alertPole = "투표가 파토났습니다";
       this.removeAlertPole();
     }
+
     return (
       <Container style={styles.container}>
         <Header style={styles.chatheader}>
@@ -169,7 +172,9 @@ export default class Chattingroom extends Component {
             </Button>
           </Left>
           <Body style={styles.body}>
-            <Title>방 제목</Title>
+            <Title>
+              {this.props.navigation.state.params.roomData.roomTitle}
+            </Title>
           </Body>
           <Right>
             <Button
@@ -205,14 +210,14 @@ export default class Chattingroom extends Component {
             </View>
           </Form>
           <Form>
-            {this.state.messages.map(ms => {
+            {this.messages.map(ms => {
               return (
                 <Chatcontent
                   userId={ms.userId}
                   nickname={ms.nickname}
                   message={ms.message}
                   createdAt={ms.createdAt}
-                  key={ms.userId}
+                  key={ms.createdAt}
                   userIdS={this.props.screenProps.rootState.userId}
                 />
               );

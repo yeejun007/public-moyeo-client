@@ -16,8 +16,8 @@ class App extends Component {
       isLogin: false,
       clickSignup: false,
       loading: true,
-      nickname: "송이준",
-      userId: 1,
+      userId: null,
+      nickname: null,
       onVote: false
     };
 
@@ -45,8 +45,8 @@ class App extends Component {
     this.setState({ isLogin: false, token: null });
   }
 
-  LoginSuccess() {
-    this.setState({ isLogin: true });
+  LoginSuccess(token) {
+    this.setState({ isLogin: true, token: token });
   }
 
   changeVoteState() {
@@ -59,12 +59,20 @@ class App extends Component {
     this.setState({ clickSignup: true });
   }
 
+  passInfo(userId, nickname) {
+    this.setState({
+      userId: userId,
+      nickname: nickname
+    });
+  }
+
   render() {
     this.clickSignup = this.clickSignup.bind(this);
     this.gobackMain = this.gobackMain.bind(this);
     this.LogOut = this.LogOut.bind(this);
     this.changeVoteState = this.changeVoteState.bind(this);
     this.LoginSuccess = this.LoginSuccess.bind(this);
+    this.passInfo = this.passInfo.bind(this);
 
     if (this.state.loading) {
       return <AppLoading />;
@@ -72,10 +80,13 @@ class App extends Component {
     if (this.state.isLogin === false && this.state.clickSignup === false) {
       return (
         <Startuppage
-          clickSignup={this.clickSignup}
           isLogin={this.state.isLogin}
+          userId={this.state.userId}
+          nickname={this.state.nickname}
+          clickSignup={this.clickSignup}
           gobackMain={this.gobackMain}
           LoginSuccess={this.LoginSuccess}
+          passInfo={this.passInfo}
         />
       );
     }

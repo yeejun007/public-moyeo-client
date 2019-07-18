@@ -17,11 +17,70 @@ import {
   Left
 } from "native-base";
 
+const styles = StyleSheet.create({
+  content: {
+    top: 50,
+    height: 700
+  },
+  header: {
+    height: 80
+  },
+  closebutton: {
+    top: 10,
+    right: 120
+  },
+  buttonbox: {
+    top: 20,
+    height: 300
+  },
+  buttonset: {
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+  ageItem: {
+    width: 100
+  },
+  button: {
+    marginTop: 30,
+    left: 15,
+    width: 380
+  },
+  pickerItem: {
+    left: 215,
+    width: 200
+  },
+  TitleText: {
+    left: 120,
+    fontSize: 50,
+    color: "green"
+  },
+  footerText: {
+    fontSize: 15
+  },
+  cardItem: {
+    left: 120
+  },
+  genderText: {
+    top: 10,
+    color: "grey",
+    left: 15,
+    fontSize: 17
+  },
+  container: {
+    top: 0,
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
+
 export default class ProfileSetting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: undefined
+      selected: undefined,
+      token: this.props.screenProps.rootState.token
     };
   }
 
@@ -89,7 +148,13 @@ export default class ProfileSetting extends Component {
               </Button>
             </Item>
             <Item style={{ top: 10 }}>
-              <Button block style={styles.button} onPress={()=>{this.props.screenProps.LogOut()}}>
+              <Button
+                block
+                style={styles.button}
+                onPress={() => {
+                  this.props.screenProps.LogOut();
+                }}
+              >
                 <Text>로그아웃</Text>
               </Button>
             </Item>
@@ -111,61 +176,3 @@ export default class ProfileSetting extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  content: {
-    top: 50,
-    height: 700
-  },
-  header: {
-    height: 80
-  },
-  closebutton: {
-    top: 10,
-    right: 120
-  },
-  buttonbox: {
-    top: 20,
-    height: 300
-  },
-  buttonset: {
-    flexDirection: "column",
-    justifyContent: "space-between"
-  },
-  ageItem: {
-    width: 100
-  },
-  button: {
-    marginTop: 30,
-    left: 15,
-    width: 380
-  },
-  pickerItem: {
-    left: 215,
-    width: 200
-  },
-  TitleText: {
-    left: 120,
-    fontSize: 50,
-    color: "green"
-  },
-  footerText: {
-    fontSize: 15
-  },
-  cardItem: {
-    left: 120
-  },
-  genderText: {
-    top: 10,
-    color: "grey",
-    left: 15,
-    fontSize: 17
-  },
-  container: {
-    top: 0,
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

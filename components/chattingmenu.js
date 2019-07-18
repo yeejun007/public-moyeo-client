@@ -15,10 +15,28 @@ import Tab1 from "./tabone";
 import Tab2 from "./tabtwo";
 import Tab3 from "./tabthree";
 
+const styles = StyleSheet.create({
+  closebutton: {
+    top: 10,
+    right: 120
+  },
+  content: {
+    marginTop: 10
+  },
+  header: {
+    height: 80
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  }
+});
+
 export default class Chattingmenu extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
+    console.log("========= chatting menu", this.props);
   }
 
   render() {
@@ -70,20 +88,3 @@ export default class Chattingmenu extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  closebutton: {
-    top: 10,
-    right: 120
-  },
-  content: {
-    marginTop: 10
-  },
-  header: {
-    height: 80
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  }
-});

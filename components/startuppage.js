@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
+
 import {
   Container,
   Content,
@@ -16,6 +17,8 @@ import {
   Label,
   View
 } from "native-base";
+
+import ClientSocket from "../socket/clientsocket";
 
 export default class Startuppage extends Component {
   constructor(props) {
@@ -44,11 +47,16 @@ export default class Startuppage extends Component {
       })
       .then(result => {
         this.state.isLogin = result.isLogin;
+        this.props.passInfo(result.data.id, result.data.nickname);
+        // this.props.userId = result.data.id;
+        // this.props.nickname = result.data.nickname;
         // if (this.state.token) {
         //   this.state.token = result.token;
         // }
         if (this.state.isLogin) {
-          this.props.LoginSuccess();
+          this.props.LoginSuccess(result.token);
+          // ClientSocket.query = "token=" + result.token;
+          // ClientSocket.connect();
           this.props.gobackMain();
         }
       });
