@@ -97,11 +97,19 @@ class ChatroomSet extends Component {
       })
       .then(json => {
         console.log("=======ㅊㅐ팅방 만들기 ", json.data);
-        ClientSocket.emit("ServerEntryRoom", {
-          roomId: json.data.id,
-          userId: this.props.screenProps.rootState.userId,
-          nickname: this.props.screenProps.rootState.nickname,
-          token: this.props.screenProps.rootState.token
+        console.log(
+          "세개============",
+          this.props.screenProps.rootState.userId,
+          this.props.screenProps.rootState.nickname,
+          this.props.screenProps.rootState.token
+        );
+        ClientSocket.emit("ServerCreateRoom", {
+          data: {
+            roomId: json.data.id,
+            userId: this.props.screenProps.rootState.userId,
+            nickname: this.props.screenProps.rootState.nickname,
+            token: this.props.screenProps.rootState.token
+          }
         });
         callback(json.data);
       })
