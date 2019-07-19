@@ -55,7 +55,7 @@ class SelectVote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      onVote: false,
+      onVote: this.props.navi.navigation.state.params.poleData.onVote,
       token: this.props.navi.screenProps.rootState.token,
       userId: this.props.navi.screenProps.rootState.userId,
       roomId: this.props.navi.navigation.state.params.poleData.roomId,

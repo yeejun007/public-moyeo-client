@@ -24,12 +24,6 @@ class App extends Component {
       nickname: null,
       onVote: false
     };
-
-    ClientSocket.on("resultPole", data => {
-      this.setState({
-        onVote: data.result
-      });
-    });
   }
 
   async componentDidMount() {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, AsyncStorage } from "react-native";
 import {
   Container,
   Header,
@@ -62,10 +62,12 @@ export default class Chattingroom extends Component {
       locationX: null,
       locationY: null,
       poleResult: null,
-      token: this.props.screenProps.rootState.token
+      token: this.props.screenProps.rootState.token,
+      onVote: false,
+      messages: []
     };
 
-    this.messages = [];
+    // this.messages = [];
 
     console.log("chatting Room props========", props);
     console.log("chatting Room state=======", this.state);
@@ -73,9 +75,9 @@ export default class Chattingroom extends Component {
     this.alertMessage = `${this.state.newUser} 님이 입장하였습니다`;
 
     ClientSocket.on("ClientEntryRoom", data => {
-      this.state.newUser = data.nickname.nickname;
+      // this.state.newUser = data.nickname.nickname;
       this.setState({
-        // newUser: data.nickname.nickname
+        newUser: data.nickname.nickname
       });
     });
 
@@ -93,9 +95,11 @@ export default class Chattingroom extends Component {
 
     ClientSocket.on("resultPole", data => {
       this.setState({ poleResult: data.result });
+      this.storeData(this.state.roomId, this.eachRoomData);
     });
 
     ClientSocket.on("successPole", data => {
+      // console.log("succecPole =============", data);
       this.setState({
         poleId: data.sendPole.id,
         poleTitle: data.sendPole.poleTitle,
@@ -103,12 +107,111 @@ export default class Chattingroom extends Component {
         expireTime: data.sendPole.expireTime,
         promiseTime: data.sendPole.promiseTime,
         locationX: data.sendPole.locationX,
-        locationY: data.sendPole.locationY
+        locationY: data.sendPole.locationY,
+        onVote: true
       });
+      // console.log("chattingRoom state =====", this.state);
+      // console.log("Each Room data =====>", this.eachRoomData);
+      this.storeData(this.state.roomId, this.eachRoomData);
     });
 
     this.alertPole = "";
+
+    this.eachRoomData = {
+      poleData: {
+        poleTitle: this.state.poleTitle,
+        poleContent: this.state.poleContent,
+        expireTime: this.state.expireTime,
+        promiseTime: this.state.promiseTime,
+        locationX: this.state.locationX,
+        locationY: this.state.locationY,
+        onVote: this.state.onVote
+      },
+      messages: []
+    };
   }
+
+  componentDidMount() {
+    this.retrieveData(this.state.roomId);
+  }
+
+  storeData = async (roomId, roomData) => {
+    // console.log("========storeData roomData === ", roomData);
+    console.log("storeData RoomID========", roomId);
+    try {
+      await AsyncStorage.setItem(
+        JSON.stringify(roomId),
+        JSON.stringify(roomData)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  retrieveData = async key => {
+    try {
+      // console.log("======key", key);
+      const value = JSON.parse(await AsyncStorage.getItem(JSON.stringify(key)));
+      console.log("========= value", JSON.parse(value));
+      const {
+        poleData: {
+          poleId,
+          poleTitle,
+          poleContent,
+          expireTime,
+          promiseTime,
+          locationX,
+          locationY,
+          poleResult,
+          onVote
+        },
+        messages
+      } = value;
+      console.log(
+        poleId,
+        poleTitle,
+        poleContent,
+        expireTime,
+        promiseTime,
+        locationX,
+        locationY,
+        poleResult,
+        messages
+      );
+      console.log(value);
+      if (value !== null) {
+        this.setState({
+          poleId,
+          poleTitle,
+          poleContent,
+          expireTime,
+          promiseTime,
+          locationX,
+          locationY,
+          poleResult,
+          messages
+        });
+        this.eachRoomData = {
+          poleData: {
+            poleId,
+            poleTitle,
+            poleContent,
+            expireTime,
+            promiseTime,
+            locationX,
+            locationY,
+            poleResult,
+            onVote
+          },
+          messages
+        };
+      } else {
+        this.storeData(this.state.roomId, this.eachRoomData);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   sendMessage(ele) {
     ClientSocket.emit("messageFclient", { chat: ele });
@@ -184,7 +287,8 @@ export default class Chattingroom extends Component {
                     promiseTime: this.state.promiseTime,
                     locationX: this.state.locationX,
                     locationY: this.state.locationY,
-                    poleResult: this.state.poleResult
+                    poleResult: this.state.poleResult,
+                    onVote: this.state.onVote
                   }
                 });
               }}
@@ -204,7 +308,7 @@ export default class Chattingroom extends Component {
             </View>
           </Form>
           <Form>
-            {this.messages.map(ms => {
+            {this.state.messages.map(ms => {
               return (
                 <Chatcontent
                   userId={ms.userId}

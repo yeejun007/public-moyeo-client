@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
+// import MapView, { PORVIDER_GOOGLE } from 'react-native-maps';
+// import { MapView } from "expo";
 import {
   Container,
   Button,
@@ -62,7 +64,7 @@ class SettingVote extends Component {
     super(props);
 
     this.state = {
-      onVote: this.props.navi.screenProps.rootState.onVote,
+      onVote: this.props.navi.navigation.state.params.poleData.onVote,
       poleTitle: null,
       roomId: this.props.navi.navigation.state.params.poleData.roomId,
       poleContent: null,
@@ -150,6 +152,15 @@ class SettingVote extends Component {
           </Form>
           <Content style={styles.mapcontent}>
             <Text>만날장소 카카오맵</Text>
+            {/* <MapView
+              style={{ flex: 1 }}
+              initialRegion={{
+                latitude: 37.8788,
+                longitude: 122.4232,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+            /> */}
           </Content>
           {this.state.onVote === true ? (
             <View />

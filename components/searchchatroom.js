@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
+
 export default class Searchchatroom extends Component {
   constructor(props) {
     super(props);

@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 2367,
-  "expoServerNgrokUrl": "https://86-6qe.anonymous.moyeo-client.exp.direct",
-  "packagerNgrokUrl": "https://packager.86-6qe.anonymous.moyeo-client.exp.direct",
-  "ngrokPid": 2401,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": 19006
 }
