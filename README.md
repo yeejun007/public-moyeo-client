@@ -22,4 +22,4 @@
 
 
 #### `expo와 RN-cli 구동환경에 대한 차이점 포스팅`
-https://bit.ly/38s7NQa (내 블로그)
+- https://bit.ly/38s7NQa (내 블로그)
