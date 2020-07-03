@@ -9,7 +9,7 @@
 
 
 ### `앱 실행화면`
-<img width="753" alt="스크린샷 2020-07-03 오후 4 46 25" src="https://user-images.githubusercontent.com/46306443/86445148-d829be80-bd4c-11ea-867d-986c38466165.png">
+<img width="692" alt="스크린샷 2020-07-03 오후 5 02 27" src="https://user-images.githubusercontent.com/46306443/86446498-ff818b00-bd4e-11ea-8e64-ace42a6a347a.png">
 <img width="721" alt="스크린샷 2020-07-03 오후 4 46 54" src="https://user-images.githubusercontent.com/46306443/86445165-e11a9000-bd4c-11ea-90d4-09ea94a41e8e.png">
 
 
